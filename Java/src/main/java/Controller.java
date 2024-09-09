@@ -109,22 +109,22 @@ public class Controller {
         }
     }
 
-    public void resignProStatus(Tesserati player) {
+    private void resignProStatus(Tesserati player) {
         model.resignProStatus(player);
         view.messagePage("Status di professionista revocato");
     }
 
-    public void turnPro(Tesserati player) {
+    private void turnPro(Tesserati player) {
         model.turnPro(player);
         view.messagePage("Status di professionista associato");
     }
 
-    public void disqualify(Tesserati player) {
+    private void disqualify(Tesserati player) {
         model.disqualify(player);
         view.messagePage("Squalifica registrata correttamente");
     }
 
-    public void requalify(Tesserati player) {
+    private void requalify(Tesserati player) {
         model.requalify(player);
         view.messagePage("Squalifica revocata con successo");
     }
@@ -406,5 +406,23 @@ public class Controller {
 
     public View getView() {
         return view;
+    }
+
+    public void changeStatus(Tesserati player) {
+        if (player.getStatusProfessionista().equals("t")) {
+            this.resignProStatus(player);
+        } else if (player.getEraProfessionista().equals("f")) {
+            this.turnPro(player);
+        } else {
+            view.messagePage("Impossibile assegnare lo status di professionista: il giocatore vi ha precedentemente rinunciato");
+        }
+    }
+
+    public void toggleDisqualification(Tesserati player) {
+        if (player.getSqualifica().equals("t")) {
+            this.requalify(player);
+        } else {
+            this.disqualify(player);
+        }
     }   
 }

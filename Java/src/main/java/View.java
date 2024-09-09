@@ -899,45 +899,26 @@ public class View {
         final var playerUpdatePanel = new JPanel();
         playerUpdatePanel.setLayout(new BoxLayout(playerUpdatePanel, BoxLayout.Y_AXIS));
 
-        final var disqualify = new JButton();
-        final var turnProfessional = new JButton();
+        final var disqualify = new JButton("Assegna/revoca squalifica");
+        final var turnProfessional = new JButton("Modifica lo status di professionista");
         final var eliminate = new JButton("Rimuovi tesserato");
 
-        if (player.getStatusProfessionista().equals("t")) {
-            turnProfessional.setText("Rinuncia allo status di professionista");
-            turnProfessional.addActionListener(e -> {
-                controller.resignProStatus(player);
-                frame.validate();
-            });
-            playerUpdatePanel.add(turnProfessional);
-        } else if (player.getEraProfessionista().equals("f")) {
-            turnProfessional.setText("Assegna status professionista");
-            turnProfessional.addActionListener(e -> {
-                controller.turnPro(player);
-                frame.validate();
-            });
-            playerUpdatePanel.add(turnProfessional);
-        }
+        turnProfessional.addActionListener(e -> {
+            controller.changeStatus(player);
+            frame.validate();
+        });
 
-        if (player.getSqualifica().equals("f")) {
-            disqualify.setText("Squalifica giocatore");
-            disqualify.addActionListener(e -> {
-                controller.disqualify(player);
-                frame.validate();
-            });
-        } else {
-            disqualify.setText("Revoca squalifica");
-            disqualify.addActionListener(e -> {
-                controller.requalify(player);
-                frame.validate();
-            });
-        }
+        disqualify.addActionListener(e -> {
+            controller.toggleDisqualification(player);
+            frame.validate();
+        });
 
         eliminate.addActionListener(e -> {
             controller.removePlayer(player);
             frame.validate();
         });
 
+        playerUpdatePanel.add(turnProfessional);
         playerUpdatePanel.add(disqualify);
         playerUpdatePanel.add(eliminate);
         playerUpdatePanel.add(this.adminHome());
