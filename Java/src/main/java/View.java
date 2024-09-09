@@ -30,6 +30,51 @@ public class View {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    private JButton playerHome(Tesserati tesserato) {
+        final var button = new JButton("Torna alla zona tesserati");
+        button.addActionListener(e -> {
+            this.playerPage(tesserato);
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton adminHome() {
+        final var button = new JButton("Torna alla zona amministratore");
+        button.addActionListener(e -> {
+            this.adminPage();
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton clubHome(Circoli circolo) {
+        final var button = new JButton("Torna alla zona circoli");
+        button.addActionListener(e -> {
+            this.clubPage(circolo);
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton guestHome() {
+        final var button = new JButton("Torna alla zona ospiti");
+        button.addActionListener(e -> {
+            this.guestPage();
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton home() {
+        final var button = new JButton("Torna alla Home");
+        button.addActionListener(e -> {
+            controller.homePage();
+            frame.validate();
+        });
+        return button;
+    }
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -293,6 +338,7 @@ public class View {
         clubPanel.add(newCourse);
         clubPanel.add(bookings);
         clubPanel.add(newBooking);
+        clubPanel.add(this.home());
         frame.setContentPane(clubPanel);
     }
 
@@ -306,6 +352,12 @@ public class View {
         final var tournamentSubscription = new JButton("Visualizza le gare e le iscrizioni");
         final var statsViewer = new JButton("Visualizza le statistiche personali");
         final var addData = new JButton("Registra nuovi dati");
+        final var homeButton = new JButton("Torna alla Home");
+
+        homeButton.addActionListener(e -> {
+            controller.homePage();
+            frame.validate();
+        });
         tournamentSubscription.addActionListener(e -> {
             controller.getAvailableTournaments(tesserato);
             frame.validate();
@@ -322,6 +374,7 @@ public class View {
         playerPanel.add(tournamentSubscription);
         playerPanel.add(statsViewer);
         playerPanel.add(addData);
+        playerPanel.add(this.home());
         frame.setContentPane(playerPanel);
     }
 
@@ -365,6 +418,7 @@ public class View {
         dataAdditionPanel.add(medicalRegistrationPanel);
         dataAdditionPanel.add(mailRegistrationPanel);
         dataAdditionPanel.add(phoneRegistrationPanel);
+        dataAdditionPanel.add(this.playerHome(tesserato));
         frame.setContentPane(dataAdditionPanel);
     }
 
@@ -382,6 +436,7 @@ public class View {
             orderOfMeritPanel.add(playerPanel);
         }
 
+        orderOfMeritPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(orderOfMeritPanel));
     }
 
@@ -423,6 +478,7 @@ public class View {
             tournamentListPanel.add(tournamentPanel);
         }
 
+        tournamentListPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(tournamentListPanel));
     }
 
@@ -451,6 +507,7 @@ public class View {
             clubInfoPanel.add(singleClubPanel);
         }
 
+        clubInfoPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(clubInfoPanel));
     }
 
@@ -535,6 +592,7 @@ public class View {
         newTournamentPanel.add(courseChoicePanel);
         newTournamentPanel.add(tournamentInfoPanel);
         newTournamentPanel.add(go);
+        newTournamentPanel.add(this.clubHome(circolo));
         frame.setContentPane(newTournamentPanel);
     }
 
@@ -575,6 +633,7 @@ public class View {
         newCoursePanel.add(par);
         newCoursePanel.add(courseRating);
         newCoursePanel.add(go);
+        newCoursePanel.add(this.clubHome(circolo));
         frame.setContentPane(newCoursePanel);
     }
 
@@ -602,6 +661,7 @@ public class View {
         });
 
         titleAssignmentPanel.add(go);
+        titleAssignmentPanel.add(this.clubHome(circolo));
         frame.setContentPane(titleAssignmentPanel);
     }
 
@@ -653,6 +713,7 @@ public class View {
         });
 
         addBookingPanel.add(go);
+        addBookingPanel.add(this.clubHome(circolo));
         frame.setContentPane(addBookingPanel);
     }
 
@@ -708,6 +769,7 @@ public class View {
 
         }
 
+        showTournamentsPanel.add(this.playerHome(tesserato));
         frame.setContentPane(new JScrollPane(showTournamentsPanel));
     }
 
@@ -726,6 +788,7 @@ public class View {
             leaderboardPanel.add(playerPanel);
         }
 
+        leaderboardPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(leaderboardPanel));
     }
 
@@ -744,10 +807,11 @@ public class View {
             leaderboardPanel.add(playerPanel);
         }
 
+        leaderboardPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(leaderboardPanel));
     }
 
-    public void showTournamentsToHandle(List<Gare> tournaments) {
+    public void showTournamentsToHandle(Circoli circolo, List<Gare> tournaments) {
         final var tournamentListPanel = new JPanel();
         tournamentListPanel.setLayout(new BoxLayout(tournamentListPanel, BoxLayout.Y_AXIS));
 
@@ -774,6 +838,7 @@ public class View {
             tournamentListPanel.add(tournamentPanel);
         }
 
+        tournamentListPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(tournamentListPanel));
     }
 
@@ -793,6 +858,7 @@ public class View {
         });
         clubRegistrationPanel.add(go);
 
+        clubRegistrationPanel.add(this.adminHome());
         frame.setContentPane(clubRegistrationPanel);
     }
 
@@ -808,6 +874,7 @@ public class View {
         });
         playerSelectionFrame.add(go);
 
+        playerSelectionFrame.add(this.adminHome());
         frame.setContentPane(playerSelectionFrame);
     }
 
@@ -824,6 +891,7 @@ public class View {
         });
 
         clubSelectionPanel.add(remove);
+        clubSelectionPanel.add(this.adminHome());
         frame.setContentPane(clubSelectionPanel);
     }
 
@@ -872,6 +940,7 @@ public class View {
 
         playerUpdatePanel.add(disqualify);
         playerUpdatePanel.add(eliminate);
+        playerUpdatePanel.add(this.adminHome());
         frame.setContentPane(playerUpdatePanel);
     }
 
@@ -899,6 +968,7 @@ public class View {
             showMembersPanel.add(memberPanel);
         }
 
+        showMembersPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(showMembersPanel));
     }
 
@@ -915,6 +985,7 @@ public class View {
         });
 
         memberAdditionPanel.add(go);
+        memberAdditionPanel.add(this.clubHome(circolo));
         frame.setContentPane(memberAdditionPanel);
     }
 
@@ -943,6 +1014,7 @@ public class View {
         });
 
         showBookingsPanel.add(goback);
+        showBookingsPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(showBookingsPanel));
     }
 

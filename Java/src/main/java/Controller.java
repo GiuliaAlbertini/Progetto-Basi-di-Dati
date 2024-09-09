@@ -162,7 +162,7 @@ public class Controller {
 
     public void manageTournaments(Circoli circolo) {
         List<Gare> tournaments = model.getClubTournaments(circolo.getNomeCircolo());
-        view.showTournamentsToHandle(tournaments);
+        view.showTournamentsToHandle(circolo, tournaments);
     }
 
     public void courseAddition(Circoli circolo) {

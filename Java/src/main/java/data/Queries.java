@@ -316,9 +316,10 @@ public class Queries {
         ;
         public static final String GET_CERTIFICATE_EXPIRATION =
         """
-                SELECT scadenza
-                FROM certificati_medici
+                SELECT c.scadenza
+                FROM certificati_medici c, tesserati t
                 WHERE numtessera = ?
+                AND c.numcertificato = t.numcertificato
                 """
         ;
         public static final String FIND_TOURNAMENTS_IN_CLUB =

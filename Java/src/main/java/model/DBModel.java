@@ -265,7 +265,7 @@ public class DBModel implements Model{
 
     @Override
     public boolean isCertificateValid(int numCertificato) {
-        return LocalDate.now().isAfter(CertificatiMedici.DAO.getExpirydate(connection, numCertificato));
+        return CertificatiMedici.DAO.getExpirydate(connection, numCertificato).isAfter(LocalDate.now());
     }
 
     @Override
