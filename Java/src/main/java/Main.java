@@ -3,7 +3,7 @@ import model.Model;
 
 public class Main {
     public static void main(String[] args) {
-        var connection = DAOUtils.localMySQLConnection("federgolf", "root", "BLS007ab&");
+        var connection = DAOUtils.localMySQLConnection("federgolf", "root", "869375Fs.");
         var model = Model.fromConnection(connection);
         var view = new View(() -> {
             try {
