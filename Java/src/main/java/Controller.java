@@ -308,7 +308,7 @@ public class Controller {
         }
     }
 
-    private boolean hasValidCertificate(Tesserati tesserato) {
+    public boolean hasValidCertificate(Tesserati tesserato) {
         return model.hasCertificate(tesserato) && model.isCertificateValid(tesserato.getNumCertificato());
     }
 
@@ -321,8 +321,7 @@ public class Controller {
     }
 
     public void getPersonalStats(Tesserati tesserato) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPersonalStats'");
+        view.showStats(model.getStats(tesserato.getNumTessera()));
     }
 
     public void recordMedical(String emissionDate, Tesserati tesserato) {
@@ -399,9 +398,8 @@ public class Controller {
         view.showEntryList(entryList);
     }
 
-    public void handleResult(Gare elem) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleResult'");
+    public void handleResult(Gare gara) {
+        //todo
     }
 
     public View getView() {
@@ -424,5 +422,5 @@ public class Controller {
         } else {
             this.disqualify(player);
         }
-    }   
+    }
 }

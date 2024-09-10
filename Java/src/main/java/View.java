@@ -27,6 +27,7 @@ import data.Cariche;
 import data.Circoli;
 import data.Gare;
 import data.Prenotazioni;
+import data.Stats;
 import data.Tesserati;
 
 public class View {
@@ -1038,6 +1039,65 @@ public class View {
         showBookingsPanel.add(goback);
         showBookingsPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(showBookingsPanel));
+    }
+
+    public void showStats(Stats stats) {
+        final var statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+
+        final var playerInfoPanel = new JPanel();
+        playerInfoPanel.setLayout(new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS));
+        playerInfoPanel.add(new JLabel(
+            stats.getTesserato().getName() + " " +
+            stats.getTesserato().getSurname() + " " + 
+            "tesserato numero " +
+            Integer.toString(stats.getTesserato().getNumTessera())
+        ));
+        playerInfoPanel.add(new JLabel(
+            controller.hasValidCertificate(stats.getTesserato()) ? 
+            "Il tesserato ha un certificato medico valido" :
+            "Il tesserato non ha un certificato medico valido"
+        ));
+        playerInfoPanel.add(new JLabel(
+            stats.getTesserato().getStatusProfessionista().equals("t") ? "Professionista" : "Dilettante"
+        ));
+        playerInfoPanel.add(new JLabel(
+            "Data di nascita: " +
+            stats.getTesserato().getDataDiNascita().toString()
+        ));
+        playerInfoPanel.add(this.showContacts(stats.getTesserato()));
+        statsPanel.add(playerInfoPanel);
+
+        final var lastTournamentsPanel = new JPanel();
+        lastTournamentsPanel.setLayout(new BoxLayout(lastTournamentsPanel, BoxLayout.Y_AXIS));
+        for (var result : stats.getUltimeGare()) {
+            final var resultPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            resultPanel.add(new JLabel(result.getNomeGara()));
+            resultPanel.add(new JLabel("Posizione finale: " + Integer.toString(result.getPosizioneFinale())));
+            resultPanel.add(new JLabel("Punti ottenuti: " + Integer.toString(result.getPuntiOttenuti())));
+            lastTournamentsPanel.add(resultPanel);
+        }
+        lastTournamentsPanel.add(new JLabel("Media punti nelle ultime 10 gare: " +Float.toString(stats.getMediaPunti())));
+        statsPanel.add(lastTournamentsPanel);
+
+        statsPanel.add(this.playerHome(stats.getTesserato()));
+
+        frame.setContentPane(new JScrollPane(statsPanel));
+    }
+
+    private JLabel showContacts(Tesserati tesserato) {
+        String email = "non registrato";
+        if (tesserato.getEmail() != null) {
+            email = tesserato.getEmail();
+        }
+
+        String phone = "non registrato";
+        if (tesserato.getTelefono() != null) {
+            phone = tesserato.getTelefono();
+        }
+        return new JLabel(
+            "Indirizzo mail: " + email + " Numero di telefono: " + phone
+        );
     }
 
 }

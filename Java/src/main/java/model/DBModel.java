@@ -272,4 +272,10 @@ public class DBModel implements Model{
     public List<Gare> getClubTournaments(String nomeCircolo) {
         return Gare.DAO.getTournamentsInClub(connection, nomeCircolo);
     }
+
+    @Override
+    public Stats getStats(int numTessera) {
+        return Stats.DAO.get(connection, numTessera);
+    }
+    
 }

@@ -330,6 +330,16 @@ public class Queries {
                 ORDER BY datainizio
                 """
         ;
+        public static final String FIND_RESULTS = 
+        """
+                SELECT i.*
+                FROM iscrizioni i, gare g
+                WHERE i.nomegara = g.nomegara
+                AND i.numtessera = ?
+                ORDER BY g.datainizio DESC
+                LIMIT 10
+                """
+        ;
 
     
 }

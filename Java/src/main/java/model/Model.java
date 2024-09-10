@@ -99,4 +99,6 @@ public interface Model {
 
     public List<Gare> getClubTournaments(String nomeCircolo);
 
+    public Stats getStats(int numTessera);
+
 }

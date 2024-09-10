@@ -1,6 +1,7 @@
 package data;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.LinkedList;
@@ -19,6 +20,22 @@ public class Iscrizioni {
         this.puntiOttenuti = puntiOttenuti;
         this.posizioneFinale = posizioneFinale;
         this.numTessera = numTessera;
+    }
+
+    public String getNomeGara() {
+        return this.nomeGara;
+    }
+
+    public LocalDate getDataIscrizione() {
+        return this.dataIscrizione;
+    }
+
+    public int getPuntiOttenuti() {
+        return this.puntiOttenuti;
+    }
+
+    public int getPosizioneFinale() {
+        return this.posizioneFinale;
     }
 
     public static class DAO {
@@ -119,6 +136,20 @@ public class Iscrizioni {
             }
 
             return res;
+        }
+
+        public static Iscrizioni create(ResultSet resSet) {
+            try {
+                return new Iscrizioni(
+                    resSet.getString("nomegara"),
+                    resSet.getDate("dataiscrizione").toLocalDate(),
+                    resSet.getInt("puntiottenuti"),
+                    resSet.getInt("posizionefinale"),
+                    resSet.getInt("numtessera")
+                );
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
         }
 
     }
