@@ -1,4 +1,5 @@
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.util.List;
 import java.util.Vector;
 
@@ -11,8 +12,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JComboBox;
+import java.awt.Component;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.GridBagConstraints;
+
+
 
 import data.Cariche;
 import data.Circoli;
@@ -146,16 +155,24 @@ public class View {
         // Gestione di un giocatore
         // Gestione di un circolo
         final JPanel adminHomePanel = new JPanel();
-        adminHomePanel.setLayout(new BoxLayout(adminHomePanel, BoxLayout.Y_AXIS));
+        adminHomePanel.setLayout(new GridBagLayout());
 
         var odmUpdate = new JButton("Aggiorna Ordine di Merito");
         var newPlayer = new JButton("Registra un nuovo tesserato");
         var newClub = new JButton("Registra un nuovo circolo");
         var updatePlayer = new JButton("Modifica il profilo di un tesserato");
         var removeClub = new JButton("Rimuovi il profilo di un circolo");
-
-        // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
+
+        odmUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newClub.setAlignmentX(Component.CENTER_ALIGNMENT);
+        updatePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        removeClub.setAlignmentX(Component.CENTER_ALIGNMENT);
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    
+        
+        // modifiche giuli
 
         homeButton.addActionListener(e -> {
             controller.homePage();
@@ -182,15 +199,39 @@ public class View {
             controller.clubRemoveRequested();
             frame.validate();
         });
+       
+         // Usa GridBagConstraints per centrare i pulsanti
+         GridBagConstraints gbc = new GridBagConstraints();
+         gbc.gridx = 0;
+         gbc.gridy = GridBagConstraints.RELATIVE;
+         gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
+         gbc.anchor = GridBagConstraints.CENTER;
+         gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
 
-        adminHomePanel.add(odmUpdate);
-        adminHomePanel.add(newPlayer);
-        adminHomePanel.add(newClub);
-        adminHomePanel.add(updatePlayer);
-        adminHomePanel.add(removeClub);
-        // modifiche giuli
-        adminHomePanel.add(homeButton);
-        frame.setContentPane(adminHomePanel);
+        gbc.gridy = 0;
+        adminHomePanel.add(odmUpdate, gbc);
+        
+        gbc.gridy = 1;
+        adminHomePanel.add(newPlayer, gbc);
+        
+        gbc.gridy = 2;
+        adminHomePanel.add(newClub,gbc);
+    
+        gbc.gridy = 3;
+        adminHomePanel.add(updatePlayer,gbc);
+        
+        gbc.gridy = 4;
+        adminHomePanel.add(removeClub,gbc);
+        
+        gbc.gridy = 5;
+        adminHomePanel.add(homeButton,gbc);
+        
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.add(adminHomePanel, BorderLayout.CENTER);
+
+        frame.setContentPane(outerPanel);
+  
+        //frame.setContentPane(adminHomePanel);
     }
 
     public void clubLoginPage() {
