@@ -191,9 +191,9 @@ public class View {
 
     public void clubLoginPage() {
         final JPanel clubLoginPanel = new JPanel();
-        clubLoginPanel.setLayout(new FlowLayout());
+        clubLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JTextField clubName = new JTextField("Inserire il nome del circolo");
+        JTextField clubName = new JTextField("Inserire il nome del circolo", 20);
         JButton go = new JButton("Accedi");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
@@ -211,7 +211,14 @@ public class View {
         clubLoginPanel.add(clubName);
         clubLoginPanel.add(go);
         clubLoginPanel.add(homeButton);
-        frame.setContentPane(clubLoginPanel);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(clubLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void playerLoginPage() {
