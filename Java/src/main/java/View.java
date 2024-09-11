@@ -1,16 +1,18 @@
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
+import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -19,6 +21,7 @@ import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.GridBagConstraints;
 
 
@@ -53,10 +56,12 @@ public class View {
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
+        
         final var adminPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var clubPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var playerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var guestPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
 
         var adminLogin = new JButton("Area Riservata Amministratore");
         var clubLogin = new JButton("Area Riservata Circoli");
@@ -87,10 +92,16 @@ public class View {
             frame.validate();
         });
 
+        
         adminPanel.add(adminLogin);
         clubPanel.add(clubLogin);
         playerPanel.add(playerLogin);
         guestPanel.add(guestLogin);
+
+        adminPanel.setOpaque(false);
+        clubPanel.setOpaque(false);
+        playerPanel.setOpaque(false);
+        guestPanel.setOpaque(false);
 
         mainPanel.add(adminPanel);
         mainPanel.add(clubPanel);
@@ -101,6 +112,8 @@ public class View {
         ((JComponent) frame.getContentPane()).setBorder(padding);
         frame.setSize(1000, 600);
         frame.setVisible(true);
+
+        setBackGroundImage(mainPanel);
     }
 
     public void adminPage() {
@@ -125,6 +138,16 @@ public class View {
         updatePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         removeClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        /* 
+        adminHomePanel.add(odmUpdate, BorderLayout.CENTER);
+        adminHomePanel.add(newPlayer, BorderLayout.CENTER);
+        adminHomePanel.add(newClub, BorderLayout.CENTER);
+        adminHomePanel.add(updatePlayer, BorderLayout.CENTER);
+        adminHomePanel.add(removeClub, BorderLayout.CENTER);
+        adminHomePanel.add(homeButton, BorderLayout.CENTER);
+        */
+
     
         
         // modifiche giuli
@@ -155,6 +178,7 @@ public class View {
             frame.validate();
         });
        
+        
          // Usa GridBagConstraints per centrare i pulsanti
          GridBagConstraints gbc = new GridBagConstraints();
          gbc.gridx = 0;
@@ -183,8 +207,10 @@ public class View {
         
         JPanel outerPanel = new JPanel(new BorderLayout());
         outerPanel.add(adminHomePanel, BorderLayout.CENTER);
-
+        
+        
         frame.setContentPane(outerPanel);
+        
   
         //frame.setContentPane(adminHomePanel);
     }
@@ -993,5 +1019,22 @@ public class View {
         showBookingsPanel.add(goback);
         frame.setContentPane(new JScrollPane(showBookingsPanel));
     }
+
+    public void setBackGroundImage(JPanel panel) {
+        ImageIcon image;
+        String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
+        image = loadImage(imagepath);
+        JLabel background = new JLabel(image);
+        background.setBounds(0,0, panel.getWidth(), panel.getHeight());
+        panel.setLayout(null);
+        panel.add(background);
+        panel.repaint();
+    }
+
+    public ImageIcon loadImage (String pathImage){
+        return new ImageIcon(pathImage);
+    }
+
+    
 
 }
