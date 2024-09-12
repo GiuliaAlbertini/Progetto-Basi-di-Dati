@@ -1,4 +1,5 @@
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.util.List;
@@ -133,7 +134,8 @@ public class View {
         frame.setSize(1000, 600);
         frame.setVisible(true);
 
-        setBackGroundImage(mainPanel);
+        String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
+        setBackGroundImage(mainPanel, imagepath);
     }
 
     public void adminPage() {
@@ -253,7 +255,10 @@ public class View {
 
         frame.setContentPane(adminHomePanel);
         frame.setVisible(true);
-        setBackGroundImage(adminHomePanel);
+
+        String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
+        setBackGroundImage(adminHomePanel, imagepath);
+      
     }
 
     public void clubLoginPage() {
@@ -573,31 +578,83 @@ public class View {
         final JPanel playerDataPanel = new JPanel();
         playerDataPanel.setLayout(new BoxLayout(playerDataPanel, BoxLayout.Y_AXIS));
 
-        final JTextField name = new JTextField("Nome");
-        final var surname = new JTextField("Cognome");
-        final var DoB = new JTextField("Data di nascita (formato YYYY-MM-DD)");
+        //nome
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JLabel namelab = new JLabel("Nome:");
+        namelab.setForeground(Color.WHITE);
+        namelab.setFont(new Font("Montessat", Font.BOLD, 16));
+        final JTextField name = new JTextField(16);
+        name.setFont(new Font("Arial", Font.PLAIN, 20));
+        namePanel.add(namelab);
+        namePanel.add(name);
 
-        // modifiche giuli
-        var adminButton = new JButton("Torna indietro");
+        //cognome
+        JPanel surnamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JLabel surnamelab = new JLabel("Cognome:");
+        surnamelab.setForeground(Color.WHITE);
+        surnamelab.setFont(new Font("Montessat", Font.BOLD, 16));
+        final JTextField surname = new JTextField(15);
+        surname.setFont(new Font("Arial", Font.PLAIN, 20));
+        surnamePanel.add(surnamelab);
+        surnamePanel.add(surname);
 
-        adminButton.addActionListener(e -> {
-            controller.getView().adminPage();
-            frame.validate();
-        });
+        //Dob
+        JPanel DoBPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JLabel DoBlab = new JLabel("Data di nascita (YYYY-MM-DD): ");
+        DoBlab.setForeground(Color.WHITE);
+        DoBlab.setFont(new Font("Montessat", Font.BOLD, 16));
+        final JTextField DoB = new JTextField(8);
+        DoB.setFont(new Font("Arial", Font.PLAIN, 20));
+        DoBPanel.add(DoBlab);
+        DoBPanel.add(DoB);
 
-        playerDataPanel.add(name);
-        playerDataPanel.add(surname);
-        playerDataPanel.add(DoB);
-
+        //inserisci i dati
+        JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         final var register = new JButton("Registra i dati inseriti");
+        
         register.addActionListener(e -> {
             controller.registerPlayer(name.getText(), surname.getText(), DoB.getText());
             frame.validate();
         });
 
-        playerDataPanel.add(register);
-        playerDataPanel.add(adminButton);
+        ButtonPanel.add(register);
+
+        //bottone goback
+        var goback = new JButton("Torna indietro");
+        goback.addActionListener(e -> {
+            controller.getView().adminPage();
+            frame.validate();
+        });
+        ButtonPanel.add(goback);
+
+
+        //rendo visibile 
+        playerDataPanel.add(Box.createRigidArea(new Dimension(0, 70)));
+        playerDataPanel.add(namePanel);
+        playerDataPanel.add(surnamePanel);
+        playerDataPanel.add(DoBPanel);
+        playerDataPanel.add(ButtonPanel);
         frame.setContentPane(playerDataPanel);
+        frame.setVisible(true);
+
+        //opacizzo tutto
+        namePanel.setOpaque(false);
+        surnamePanel.setOpaque(false);
+        DoBPanel.setOpaque(false);
+        ButtonPanel.setOpaque(false);
+
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        register.setBackground(buttonBackgroundColor);
+        register.setForeground(buttonTextColor);
+        goback.setBackground(buttonBackgroundColor);
+        goback.setForeground(buttonTextColor);
+
+        //sfondo
+        String imagepath = "C:\\Users\\alber\\Downloads\\3.PNg";
+        setBackGroundImage(playerDataPanel, imagepath);
     }
 
     public void addNewTournament(Circoli circolo) {
@@ -1061,10 +1118,9 @@ public class View {
         frame.setContentPane(new JScrollPane(showBookingsPanel));
     }
 
-    public void setBackGroundImage(JPanel panel) {
+    public void setBackGroundImage(JPanel panel, String imagePath) {
         ImageIcon image;
-        String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
-        image = loadImage(imagepath);
+        image = loadImage(imagePath);
         JLabel background = new JLabel(image);
         background.setBounds(0,0, panel.getWidth(), panel.getHeight()); //setta l'immagine della grandezza giusta
         panel.setLayout(null); //se metto un layout me lo toglie e mi mette quello che voglio 
