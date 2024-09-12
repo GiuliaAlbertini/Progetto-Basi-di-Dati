@@ -278,6 +278,23 @@ public class Tesserati {
                 throw new DAOException(e);
             }
         }
+
+        public static List<Tesserati> getNonPositionedInTournament(Connection connection, String nomeGara) {
+            List<Tesserati> res = new LinkedList<>();
+
+            try (
+                final var statement = DAOUtils.prepare(connection, Queries.FIND_NON_POSITIONED, nomeGara);
+                var resSet = statement.executeQuery();
+            ) {
+                while (resSet.next()) {
+                    res.add(Tesserati.DAO.create(resSet));
+                }
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+            return res;
+        }
     }
 
 }

@@ -101,4 +101,12 @@ public interface Model {
 
     public Stats getStats(int numTessera);
 
+    public void clearEntryList(String nomeGara, int maxIscritti);
+
+    public List<Tesserati> getNonPositionedPlayers(String nomeGara);
+
+    public int getFinalPoints(int posizione, String nomeGara);
+
+    public void recordPosition(int numTessera, String nomeGara, int posizione, int odMPoints);
+
 }

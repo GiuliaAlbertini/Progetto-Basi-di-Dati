@@ -152,6 +152,63 @@ public class Iscrizioni {
             }
         }
 
+        public static void clearEntryList(Connection connection, String nomeGara, int maxIscritti) {
+            final int proNumber = Iscrizioni.DAO.countPro(connection, nomeGara, maxIscritti);
+            try (
+                final var clearProStatement = DAOUtils.prepare(
+                    connection,
+                    Queries.CLEAR_PRO,
+                    nomeGara,
+                    maxIscritti
+                );
+                final var clearAmStatement = DAOUtils.prepare(
+                    connection,
+                    Queries.CLEAR_AM,
+                    nomeGara,
+                    maxIscritti - proNumber
+                );
+            ) {
+                clearProStatement.execute();
+                clearAmStatement.execute();
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+        private static int countPro(Connection connection, String nomeGara, int maxIscritti) {
+            try (
+                var statement = DAOUtils.prepare(
+                    connection,
+                    Queries.COUNT_PRO_ENTRIES,
+                    nomeGara,
+                    maxIscritti
+                );
+                var resSet = statement.executeQuery();
+            ) {
+                resSet.next();
+                return resSet.getInt("numpro");
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+        public static void setResult(Connection connection, int numTessera, String nomeGara, int posizione,
+                int odMPoints) {
+            try (
+                final var statement = DAOUtils.prepare(
+                    connection,
+                    Queries.UPDATE_RESULT,
+                    posizione,
+                    odMPoints,
+                    numTessera,
+                    nomeGara
+                );
+            ) {
+                
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
     }
 
 }

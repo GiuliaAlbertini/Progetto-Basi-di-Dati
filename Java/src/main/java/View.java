@@ -10,14 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JComboBox;
 import java.awt.Component;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
 
@@ -1098,6 +1095,29 @@ public class View {
         return new JLabel(
             "Indirizzo mail: " + email + " Numero di telefono: " + phone
         );
+    }
+
+    public void insertPosition(Gare gara, int posizione, List<Tesserati> nonPositionedPlayers) {
+        final var positionPanel = new JPanel();
+        positionPanel.setLayout(new BoxLayout(positionPanel, BoxLayout.Y_AXIS));
+
+        positionPanel.add(new JLabel(
+            "Inserire il giocatore in" +
+            Integer.toString(posizione) +
+            " posizione"
+        ));
+
+        final var selectPlayer = new JComboBox<Tesserati>(new Vector<Tesserati>(nonPositionedPlayers));
+        final var recordResult = new JButton("Registra la posizione");
+
+        recordResult.addActionListener(e -> {
+            controller.recordResult((Tesserati)selectPlayer.getSelectedItem(), gara, posizione);
+            frame.validate();
+        });
+
+        positionPanel.add(selectPlayer);
+        positionPanel.add(recordResult);
+        frame.setContentPane(positionPanel);
     }
 
 }

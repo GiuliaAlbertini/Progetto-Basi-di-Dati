@@ -277,5 +277,25 @@ public class DBModel implements Model{
     public Stats getStats(int numTessera) {
         return Stats.DAO.get(connection, numTessera);
     }
+
+    @Override
+    public void clearEntryList(String nomeGara, int maxIscritti) {
+        Iscrizioni.DAO.clearEntryList(connection, nomeGara, maxIscritti);
+    }
+
+    @Override
+    public List<Tesserati> getNonPositionedPlayers(String nomeGara) {
+        return Tesserati.DAO.getNonPositionedInTournament(connection, nomeGara);
+    }
+
+    @Override
+    public int getFinalPoints(int posizione, String nomeGara) {
+        return Posizionamenti.DAO.getOdMPoints(connection, posizione, nomeGara);
+    }
+
+    @Override
+    public void recordPosition(int numTessera, String nomeGara, int posizione, int odMPoints) {
+        Iscrizioni.DAO.setResult(connection, numTessera, nomeGara, posizione, odMPoints);
+    }
     
 }

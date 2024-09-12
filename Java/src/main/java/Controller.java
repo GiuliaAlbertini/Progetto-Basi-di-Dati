@@ -399,7 +399,14 @@ public class Controller {
     }
 
     public void handleResult(Gare gara) {
-        //todo
+        model.clearEntryList(gara.getNomeGara(), gara.getMaxIscritti());
+        for (int i = 1; i <= gara.getMaxIscritti(); i++) {
+            view.insertPosition(gara, i, this.getNonPositionedPlayers(gara));
+        }
+    }
+
+    private List<Tesserati> getNonPositionedPlayers(Gare gara) {
+        return model.getNonPositionedPlayers(gara.getNomeGara());
     }
 
     public View getView() {
@@ -422,5 +429,18 @@ public class Controller {
         } else {
             this.disqualify(player);
         }
+    }
+
+    public void recordResult(Tesserati tesserato, Gare gara, int posizione) {
+        model.recordPosition(
+            tesserato.getNumTessera(),
+            gara.getNomeGara(),
+            posizione,
+            this.getOdMPoints(posizione, gara.getNomeGara())
+        );
+    }
+
+    private int getOdMPoints(int posizione, String nomeGara) {
+        return model.getFinalPoints(posizione, nomeGara);
     }
 }
