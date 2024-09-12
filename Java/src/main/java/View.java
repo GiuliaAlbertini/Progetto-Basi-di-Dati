@@ -17,12 +17,15 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JComboBox;
+import javax.swing.JLayeredPane;
 import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.GridBagConstraints;
+import java.awt.Color;
+
 
 
 
@@ -69,6 +72,23 @@ public class View {
         var guestLogin = new JButton("Area Ospite");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
+        
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        adminLogin.setBackground(buttonBackgroundColor);
+        adminLogin.setForeground(buttonTextColor);
+        clubLogin.setBackground(buttonBackgroundColor);
+        clubLogin.setForeground(buttonTextColor);
+        playerLogin.setBackground(buttonBackgroundColor);
+        playerLogin.setForeground(buttonTextColor);
+        guestLogin.setBackground(buttonBackgroundColor);
+        guestLogin.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+    
+
 
         adminLogin.addActionListener(e -> {
             controller.adminLoginClicked();
@@ -124,6 +144,7 @@ public class View {
         // Gestione di un circolo
         final JPanel adminHomePanel = new JPanel();
         adminHomePanel.setLayout(new GridBagLayout());
+        
 
         var odmUpdate = new JButton("Aggiorna Ordine di Merito");
         var newPlayer = new JButton("Registra un nuovo tesserato");
@@ -132,6 +153,7 @@ public class View {
         var removeClub = new JButton("Rimuovi il profilo di un circolo");
         var homeButton = new JButton("Torna alla Home");
 
+        
         odmUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
         newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         newClub.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -139,16 +161,34 @@ public class View {
         removeClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        /* 
-        adminHomePanel.add(odmUpdate, BorderLayout.CENTER);
-        adminHomePanel.add(newPlayer, BorderLayout.CENTER);
-        adminHomePanel.add(newClub, BorderLayout.CENTER);
-        adminHomePanel.add(updatePlayer, BorderLayout.CENTER);
-        adminHomePanel.add(removeClub, BorderLayout.CENTER);
-        adminHomePanel.add(homeButton, BorderLayout.CENTER);
-        */
+
+        
+        adminHomePanel.add(odmUpdate);
+        adminHomePanel.add(newPlayer);
+        adminHomePanel.add(newClub);
+        adminHomePanel.add(updatePlayer);
+        adminHomePanel.add(removeClub);
+        adminHomePanel.add(homeButton);
+        
 
     
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        odmUpdate.setBackground(buttonBackgroundColor);
+        odmUpdate.setForeground(buttonTextColor);
+        newPlayer.setBackground(buttonBackgroundColor);
+        newPlayer.setForeground(buttonTextColor);
+        newClub.setBackground(buttonBackgroundColor);
+        newClub.setForeground(buttonTextColor);
+        updatePlayer.setBackground(buttonBackgroundColor);
+        updatePlayer.setForeground(buttonTextColor);
+        removeClub.setBackground(buttonBackgroundColor);
+        removeClub.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+
         
         // modifiche giuli
 
@@ -178,7 +218,11 @@ public class View {
             frame.validate();
         });
        
+         
+
         
+
+         
          // Usa GridBagConstraints per centrare i pulsanti
          GridBagConstraints gbc = new GridBagConstraints();
          gbc.gridx = 0;
@@ -204,15 +248,12 @@ public class View {
         
         gbc.gridy = 5;
         adminHomePanel.add(homeButton,gbc);
+       
         
-        JPanel outerPanel = new JPanel(new BorderLayout());
-        outerPanel.add(adminHomePanel, BorderLayout.CENTER);
-        
-        
-        frame.setContentPane(outerPanel);
-        
-  
-        //frame.setContentPane(adminHomePanel);
+
+        frame.setContentPane(adminHomePanel);
+        frame.setVisible(true);
+        setBackGroundImage(adminHomePanel);
     }
 
     public void clubLoginPage() {
@@ -1025,8 +1066,8 @@ public class View {
         String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
         image = loadImage(imagepath);
         JLabel background = new JLabel(image);
-        background.setBounds(0,0, panel.getWidth(), panel.getHeight());
-        panel.setLayout(null);
+        background.setBounds(0,0, panel.getWidth(), panel.getHeight()); //setta l'immagine della grandezza giusta
+        panel.setLayout(null); //se metto un layout me lo toglie e mi mette quello che voglio 
         panel.add(background);
         panel.repaint();
     }
