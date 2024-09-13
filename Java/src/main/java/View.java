@@ -58,8 +58,8 @@ public class View {
         final var goPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var go = new JButton("login");
         go.addActionListener(e -> {
-            Main.handleLoginData(username.getText(), password.getText());
             loginFrame.setVisible(false);
+            Main.handleLoginData(username.getText(), password.getText());
         });
         goPanel.add(go);
         mainLoginPanel.add(goPanel);
@@ -82,8 +82,8 @@ public class View {
         final var goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var goBack = new JButton("Torna indietro");
         goBack.addActionListener(e -> {
-            View.databaseLoginPage();
             errorFrame.setVisible(false);
+            View.databaseLoginPage();
         });
         goBackPanel.add(goBack);
         mainErrorPanel.add(goBackPanel);
