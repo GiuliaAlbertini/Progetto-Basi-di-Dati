@@ -134,7 +134,7 @@ public class View {
         frame.setSize(1000, 600);
         frame.setVisible(true);
 
-        String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
+        String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
         setBackGroundImage(mainPanel, imagepath);
     }
 
@@ -256,7 +256,7 @@ public class View {
         frame.setContentPane(adminHomePanel);
         frame.setVisible(true);
 
-        String imagepath = "C:\\Users\\alber\\Downloads\\2150978119.jpg";
+        String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
         setBackGroundImage(adminHomePanel, imagepath);
       
     }
@@ -653,7 +653,7 @@ public class View {
         goback.setForeground(buttonTextColor);
 
         //sfondo
-        String imagepath = "C:\\Users\\alber\\Downloads\\3.PNg";
+        String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\3.png";
         setBackGroundImage(playerDataPanel, imagepath);
     }
 
@@ -953,34 +953,131 @@ public class View {
         final JPanel clubRegistrationPanel = new JPanel();
         clubRegistrationPanel.setLayout(new BoxLayout(clubRegistrationPanel, BoxLayout.Y_AXIS));
 
-        final var name = new JTextField("Nome del Circolo");
-        final var address = new JTextField("Indirizzo del Circolo");
-        final var go = new JButton("Registra i dati inseriti");
+        //nome
+        JPanel nameCircPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JLabel nameCirclab = new JLabel("Nome del Circolo:");
+        nameCirclab.setForeground(Color.WHITE);
+        nameCirclab.setFont(new Font("Montessat", Font.BOLD, 16));
+        final JTextField name = new JTextField(16);
+        name.setFont(new Font("Arial", Font.PLAIN, 20));
+        nameCircPanel.add(nameCirclab);
+        nameCircPanel.add(name);
 
-        clubRegistrationPanel.add(name);
-        clubRegistrationPanel.add(address);
-        go.addActionListener(e -> {
+        //address
+        JPanel addressCircPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JLabel addressCirclab = new JLabel("Indirizzo:");
+        addressCirclab.setForeground(Color.WHITE);
+        addressCirclab.setFont(new Font("Montessat", Font.BOLD, 16));
+        final JTextField address = new JTextField(16);
+        address.setFont(new Font("Arial", Font.PLAIN, 20));
+        addressCircPanel.add(addressCirclab);
+        addressCircPanel.add(address);
+        
+
+        //bottone
+        JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final var register = new JButton("Registra i dati inseriti");
+        register.addActionListener(e -> {
             controller.registerClub(name.getText(), address.getText());
             frame.validate();
         });
-        clubRegistrationPanel.add(go);
+        
+        ButtonPanel.add(register);
 
+        //bottone goback
+        var goback = new JButton("Torna indietro");
+        goback.addActionListener(e -> {
+            controller.getView().adminPage();
+            frame.validate();
+        });
+        ButtonPanel.add(goback);
+
+        clubRegistrationPanel.add(Box.createRigidArea(new Dimension(0, 130)));
+        clubRegistrationPanel.add(nameCircPanel);
+        clubRegistrationPanel.add(addressCircPanel);
+        clubRegistrationPanel.add(ButtonPanel);
+        frame.setContentPane(clubRegistrationPanel);
+        frame.setVisible(true);
+
+    
+        //opacizzo
+        nameCircPanel.setOpaque(false);
+        addressCircPanel.setOpaque(false);
+        ButtonPanel.setOpaque(false);
+
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+        register.setBackground(buttonBackgroundColor);
+        register.setForeground(buttonTextColor);
+        goback.setBackground(buttonBackgroundColor);
+        goback.setForeground(buttonTextColor);
+
+        //sfondo
+        String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\3.png";
+        setBackGroundImage(clubRegistrationPanel, imagepath);
         frame.setContentPane(clubRegistrationPanel);
     }
 
     public void playerUpdateSelection() {
-        final var playerSelectionFrame = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        final var number = new JTextField("Inserire il numero di tessera");
-        playerSelectionFrame.add(number);
+        final JPanel playerSelectionFramePanel = new JPanel();
 
+        JPanel ChangeTesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final JLabel label = new JLabel("Inserire il numero di tessera:");
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Montessat", Font.BOLD, 16));
+
+        final var number = new JTextField(16);
+        number.setFont(new Font("Arial", Font.PLAIN, 18));
+        ChangeTesPanel.add(label);
+        ChangeTesPanel.add(number);
+       
+
+        JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var go = new JButton("Procedi");
         go.addActionListener(e -> {
             controller.updatePlayer(number.getText());
             frame.validate();
         });
-        playerSelectionFrame.add(go);
+        ButtonPanel.add(go);
 
-        frame.setContentPane(playerSelectionFrame);
+
+        var goback = new JButton("Torna indietro");
+        goback.addActionListener(e -> {
+            controller.getView().adminPage();
+            frame.validate();
+        });
+        ButtonPanel.add(goback);
+
+        playerSelectionFramePanel.add(Box.createRigidArea(new Dimension(0, 130)));
+        playerSelectionFramePanel.add(ChangeTesPanel);
+        playerSelectionFramePanel.add(Box.createRigidArea(new Dimension(10, 70)));
+        playerSelectionFramePanel.add(go);
+        playerSelectionFramePanel.add(goback);
+        frame.setContentPane(playerSelectionFramePanel);
+        //rendovisibile
+        frame.setVisible(true);
+        
+       
+        //opacizzo
+        ChangeTesPanel.setOpaque(false);
+        ButtonPanel.setOpaque(false);
+        
+
+        //colore bottoni
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+  
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+        goback.setBackground(buttonBackgroundColor);
+        goback.setForeground(buttonTextColor);
+
+        //immaginee
+        String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\8636.jpg";
+        setBackGroundImage(playerSelectionFramePanel, imagepath);
+        frame.setContentPane(playerSelectionFramePanel);
     }
 
     public void clubRemoveSelection() {
