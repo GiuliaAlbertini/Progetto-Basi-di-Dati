@@ -11843,15 +11843,3 @@ insert into prenotazioni(nomecircolo, nomepercorso, dataprenotazione, oraprenota
 values ('Golf Nazionale', 'Carta', '2024-07-29', '08:10', 309, 471, 412, 509);
 insert into prenotazioni(nomecircolo, nomepercorso, dataprenotazione, oraprenotazione, numtessera1, numtessera2, numtessera3, numtessera4)
 values ('Circolo Golf Torino La Mandria', 'Blu', '2024-08-01', '07:50', 12, 398, 409, 1081);
-
--- Updating Order of Merit
-WITH pc
-AS ( 
-SELECT numtessera, sum(puntiottenuti) as punti
-from iscrizioni i
-group by numtessera
-)
-
-update tesserati t set puntiodm = (select pc.punti from pc where pc.numtessera = t.numtessera)
-where t.numtessera in (select pc.numtessera from pc)
-and t.statusprofessionista = 'f';
