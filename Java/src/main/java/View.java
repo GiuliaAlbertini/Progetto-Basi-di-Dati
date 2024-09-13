@@ -81,7 +81,7 @@ public class View {
         mainErrorPanel.add(messagePanel);
 
         final var goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        final var goBack = new JButton("Torna indietro");
+        final var goBack = new JButton("Riprova");
         goBack.addActionListener(e -> {
             errorFrame.setVisible(false);
             View.databaseLoginPage();
