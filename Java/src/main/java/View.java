@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
@@ -51,7 +52,7 @@ public class View {
         mainLoginPanel.add(passwordLabelPanel);
 
         final var passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        final var password = new JTextField(30);
+        final var password = new JPasswordField(30);
         passwordPanel.add(password);
         mainLoginPanel.add(passwordPanel);
 
@@ -59,7 +60,7 @@ public class View {
         final var go = new JButton("login");
         go.addActionListener(e -> {
             loginFrame.setVisible(false);
-            Main.handleLoginData(username.getText(), password.getText());
+            Main.handleLoginData(username.getText(), String.valueOf(password.getPassword()));
         });
         goPanel.add(go);
         mainLoginPanel.add(goPanel);
