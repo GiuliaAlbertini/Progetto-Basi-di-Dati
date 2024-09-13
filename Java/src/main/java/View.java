@@ -70,6 +70,7 @@ public class View {
 
     public static void loginDataError() {
         final var errorFrame = new JFrame();
+        errorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         errorFrame.setSize(400, 300);
 
         final var mainErrorPanel = new JPanel();
