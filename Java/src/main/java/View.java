@@ -1111,7 +1111,7 @@ public class View {
         final var recordResult = new JButton("Registra la posizione");
 
         recordResult.addActionListener(e -> {
-            controller.recordResult((Tesserati)selectPlayer.getSelectedItem(), gara, posizione);
+            controller.recordResult((Tesserati)selectPlayer.getSelectedItem(), gara, posizione, nonPositionedPlayers);
             frame.validate();
         });
 

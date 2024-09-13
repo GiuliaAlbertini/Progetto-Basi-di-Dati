@@ -340,48 +340,6 @@ public class Queries {
                 LIMIT 10
                 """
         ;
-        public static final String COUNT_PRO_ENTRIES =
-        """
-                SELECT COUNT(*) AS numpro
-                FROM iscrizioni i, tesserati t
-                WHERE t.statusprofessionista = 't'
-                AND i.numtessera = t.numtessera
-                AND i.nomegara = ?
-                LIMIT ?
-                """
-        ;
-        public static final String CLEAR_PRO = 
-        """
-                DELETE FROM iscrizioni i
-                WHERE i.nomegara = ?
-                AND NOT EXISTS (SELECT *
-                                FROM iscrizioni i1, tesserati t
-                                WHERE t.statusprofessionista = 't'
-                                AND i1.numtessera = t.numtessera
-                                AND i1.nomegara = i.nomegara
-                                LIMIT ?)
-                """
-        ;
-        public static final String CLEAR_AM = 
-        """
-                DELETE FROM iscrizioni i
-                WHERE i.nomegara = ?
-                AND NOT EXISTS (SELECT *
-                                FROM iscrizioni i1, tesserati t
-                                WHERE t.statusprofessionista = 'f'
-                                AND i1.numtessera = t.numtessera
-                                LIMIT ?)
-                """
-        ;
-        public static final String FIND_NON_POSITIONED = 
-        """
-                SELECT t.*
-                FROM tesserati t, iscrizioni i
-                WHERE i.nomegara = ?
-                AND t.numtessera = i.numtessera
-                AND i.posizionefinale IS NULL
-                """
-        ;
         public static final String GET_POINTS_FROM_POSITION = 
         """
                 SELECT *
@@ -397,6 +355,26 @@ public class Queries {
                 SET posizionefinale = ?, puntiottenuti = ?
                 WHERE numtessera = ?
                 AND nomegara = ?
+                """
+        ;
+        public static final String GET_PRO_ENTRIES = 
+        """
+                SELECT t.*
+                FROM iscrizioni i, tesserati t
+                WHERE t.statusprofessionista = 't'
+                AND i.nomegara = ?
+                AND t.numtessera = i.numtessera
+                LIMIT ?
+                """
+        ;
+        public static final String GET_AM_ENTRIES =
+        """
+                SELECT t.*
+                FROM iscrizioni i, tesserati t
+                WHERE t.statusprofessionista = 'f'
+                AND i.nomegara = ?
+                AND t.numtessera = i.numtessera
+                LIMIT ?
                 """
         ;
 

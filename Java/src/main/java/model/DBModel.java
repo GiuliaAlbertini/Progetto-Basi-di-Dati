@@ -279,16 +279,6 @@ public class DBModel implements Model{
     }
 
     @Override
-    public void clearEntryList(String nomeGara, int maxIscritti) {
-        Iscrizioni.DAO.clearEntryList(connection, nomeGara, maxIscritti);
-    }
-
-    @Override
-    public List<Tesserati> getNonPositionedPlayers(String nomeGara) {
-        return Tesserati.DAO.getNonPositionedInTournament(connection, nomeGara);
-    }
-
-    @Override
     public int getFinalPoints(int posizione, String nomeGara) {
         return Posizionamenti.DAO.getOdMPoints(connection, posizione, nomeGara);
     }
@@ -296,6 +286,11 @@ public class DBModel implements Model{
     @Override
     public void recordPosition(int numTessera, String nomeGara, int posizione, int odMPoints) {
         Iscrizioni.DAO.setResult(connection, numTessera, nomeGara, posizione, odMPoints);
+    }
+
+    @Override
+    public List<Tesserati> getLimitedEntryList(String nomeGara, int maxIscritti) {
+        return Tesserati.DAO.getLimitedEntry(connection, nomeGara, maxIscritti);
     }
     
 }

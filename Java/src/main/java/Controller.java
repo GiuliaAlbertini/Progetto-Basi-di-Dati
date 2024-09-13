@@ -399,14 +399,8 @@ public class Controller {
     }
 
     public void handleResult(Gare gara) {
-        model.clearEntryList(gara.getNomeGara(), gara.getMaxIscritti());
-        for (int i = 1; i <= gara.getMaxIscritti(); i++) {
-            view.insertPosition(gara, i, this.getNonPositionedPlayers(gara));
-        }
-    }
-
-    private List<Tesserati> getNonPositionedPlayers(Gare gara) {
-        return model.getNonPositionedPlayers(gara.getNomeGara());
+        List<Tesserati> availablePlayers = model.getLimitedEntryList(gara.getNomeGara(), gara.getMaxIscritti());
+        view.insertPosition(gara, 1, availablePlayers);
     }
 
     public View getView() {
@@ -431,13 +425,21 @@ public class Controller {
         }
     }
 
-    public void recordResult(Tesserati tesserato, Gare gara, int posizione) {
+    public void recordResult(Tesserati tesserato, Gare gara, int posizione, List<Tesserati> availablePlayers) {
         model.recordPosition(
             tesserato.getNumTessera(),
             gara.getNomeGara(),
             posizione,
             this.getOdMPoints(posizione, gara.getNomeGara())
         );
+
+        availablePlayers.remove(tesserato);
+        if (!availablePlayers.isEmpty()) {
+            view.insertPosition(gara, posizione + 1, availablePlayers);
+        } else {
+            view.clubPage(model.findClub(gara.getNomeCircolo()).get());
+            view.messagePage("Classifica registrata correttamente");
+        }
     }
 
     private int getOdMPoints(int posizione, String nomeGara) {
