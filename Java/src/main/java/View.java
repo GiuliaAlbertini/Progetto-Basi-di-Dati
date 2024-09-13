@@ -32,7 +32,7 @@ public class View {
     public static void databaseLoginPage() {
         final var loginFrame = new JFrame();
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        loginFrame.setSize(200, 150);
+        loginFrame.setSize(400, 300);
         
         final var mainLoginPanel = new JPanel();
         mainLoginPanel.setLayout(new BoxLayout(mainLoginPanel, BoxLayout.Y_AXIS));
@@ -70,7 +70,7 @@ public class View {
 
     public static void loginDataError() {
         final var errorFrame = new JFrame();
-        errorFrame.setSize(200, 150);
+        errorFrame.setSize(400, 300);
 
         final var mainErrorPanel = new JPanel();
         mainErrorPanel.setLayout(new BoxLayout(mainErrorPanel, BoxLayout.Y_AXIS));
