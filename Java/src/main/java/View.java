@@ -29,6 +29,69 @@ import data.Tesserati;
 
 public class View {
 
+    public static void databaseLoginPage() {
+        final var loginFrame = new JFrame();
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame.setSize(200, 150);
+        
+        final var mainLoginPanel = new JPanel();
+        mainLoginPanel.setLayout(new BoxLayout(mainLoginPanel, BoxLayout.Y_AXIS));
+
+        final var usernameLabelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        usernameLabelPanel.add(new JLabel("Username:"));
+        mainLoginPanel.add(usernameLabelPanel);
+
+        final var usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var username = new JTextField(30);
+        usernamePanel.add(username);
+        mainLoginPanel.add(usernamePanel);
+
+        final var passwordLabelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        passwordLabelPanel.add(new JLabel("Password:"));
+        mainLoginPanel.add(passwordLabelPanel);
+
+        final var passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var password = new JTextField(30);
+        passwordPanel.add(password);
+        mainLoginPanel.add(passwordPanel);
+
+        final var goPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var go = new JButton("login");
+        go.addActionListener(e -> {
+            Main.handleLoginData(username.getText(), password.getText());
+            loginFrame.setVisible(false);
+        });
+        goPanel.add(go);
+        mainLoginPanel.add(goPanel);
+
+        loginFrame.setContentPane(mainLoginPanel);
+        loginFrame.setVisible(true);
+    }
+
+    public static void loginDataError() {
+        final var errorFrame = new JFrame();
+        errorFrame.setSize(200, 150);
+
+        final var mainErrorPanel = new JPanel();
+        mainErrorPanel.setLayout(new BoxLayout(mainErrorPanel, BoxLayout.Y_AXIS));
+
+        final var messagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        messagePanel.add(new JLabel("Username o password errati"));
+        mainErrorPanel.add(messagePanel);
+
+        final var goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var goBack = new JButton("Torna indietro");
+        goBack.addActionListener(e -> {
+            View.databaseLoginPage();
+            errorFrame.setVisible(false);
+        });
+        goBackPanel.add(goBack);
+        mainErrorPanel.add(goBackPanel);
+
+        errorFrame.setContentPane(mainErrorPanel);
+        errorFrame.setVisible(true);
+    }
+
     private Controller controller;
     private final JFrame frame;
 

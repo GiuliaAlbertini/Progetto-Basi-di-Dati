@@ -1,7 +1,6 @@
 import java.sql.Connection;
 
 import data.DAOUtils;
-import data.LoginInfo;
 import model.Model;
 
 public class Main {
