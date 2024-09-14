@@ -78,7 +78,7 @@ public class View {
         mainErrorPanel.setLayout(new BoxLayout(mainErrorPanel, BoxLayout.Y_AXIS));
 
         final var messagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        messagePanel.add(new JLabel("Username o password errati"));
+        messagePanel.add(new JLabel("Errore nei dati di login"));
         mainErrorPanel.add(messagePanel);
 
         final var goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

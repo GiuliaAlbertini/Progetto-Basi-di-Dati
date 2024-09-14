@@ -91,8 +91,12 @@ public class Controller {
     }
 
     public void registerPlayer(String name, String surname, String dateOfBirth) {
-        model.registerPlayer(name, surname, dateOfBirth);
-        view.messagePage("Giocatore registrato correttamente");
+        if (this.isValidDate(dateOfBirth)) {
+            model.registerPlayer(name, surname, dateOfBirth);
+            view.messagePage("Giocatore registrato correttamente");
+        } else {
+            view.messagePage("Errore nel formato della data");
+        }
     }
 
     public void registerClub(String clubName, String address) {
@@ -337,9 +341,9 @@ public class Controller {
         }
     }
 
-    private boolean isValidDate(String emissionDate) {
+    private boolean isValidDate(String date) {
         try {
-            LocalDate.parse(emissionDate);
+            LocalDate.parse(date);
         } catch (Exception e) {
             return false;
         }
