@@ -1081,19 +1081,59 @@ public class View {
     }
 
     public void clubRemoveSelection() {
-        final var clubSelectionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final JPanel ClubRpanel = new JPanel();
 
-        final var clubName = new JTextField("Inserire il nome del circolo");
-        clubSelectionPanel.add(clubName);
+        JPanel ClubRemovePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final JLabel label = new JLabel("Inserire il nome del circolo:");
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Montessat", Font.BOLD, 16));
+        final var name = new JTextField(16);
+        name.setFont(new Font("Arial", Font.PLAIN, 18));
+        ClubRemovePanel.add(label);
+        ClubRemovePanel.add(name);
 
+        JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var remove = new JButton("Rimuovi circolo");
         remove.addActionListener(e -> {
-            controller.removeClub(clubName.getText());
+            controller.removeClub(name.getText());
             frame.validate();
         });
+        ButtonPanel.add(remove);
 
-        clubSelectionPanel.add(remove);
-        frame.setContentPane(clubSelectionPanel);
+
+        var goback = new JButton("Torna indietro");
+        goback.addActionListener(e -> {
+            controller.getView().adminPage();
+            frame.validate();
+        });
+        ButtonPanel.add(goback);
+
+        ClubRpanel.add(Box.createRigidArea(new Dimension(0, 130)));
+        ClubRpanel.add(ClubRemovePanel);
+        ClubRpanel.add(ButtonPanel);
+        frame.setContentPane(ClubRpanel);
+        frame.setVisible(true);
+
+        //opacizzo
+        ClubRemovePanel.setOpaque(false);
+        ButtonPanel.setOpaque(false);
+
+         //colore bottoni
+         Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+         Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+ 
+   
+         remove.setBackground(buttonBackgroundColor);
+         remove.setForeground(buttonTextColor);
+         goback.setBackground(buttonBackgroundColor);
+         goback.setForeground(buttonTextColor);
+ 
+
+        //immaginee
+        String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\8636.jpg";
+        setBackGroundImage(ClubRpanel, imagepath);
+        frame.setContentPane(ClubRpanel);
+
     }
 
     public void playerUpdateFound(Tesserati player) {
