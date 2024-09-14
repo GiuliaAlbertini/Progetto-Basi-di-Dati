@@ -189,23 +189,41 @@ public class Controller {
     }
 
     public void addNewTournament(Circoli circolo, Object nomePercorso, String nomeGara, String dataInizio, 
-        Object durata, String maxIscritti, String dataChiusuraIscrizioni, Object categoriaStatus) {
-        if (model.findTournament(nomeGara).isEmpty()) {
-            model.addNewTournament(
-            circolo.getNomeCircolo(),
-            nomePercorso.toString(),
-            nomeGara,
-            dataInizio,
-            durata.toString(),
-            maxIscritti,
-            dataChiusuraIscrizioni,
-            categoriaStatus.equals("professionistica") ? new String("p") : new String("d"),
-            this.getCategory(durata.toString(), categoriaStatus)
-            );
-            view.messagePage("Gara registrata con successo");
-        } else {
+        String durata, String maxIscritti, String dataChiusuraIscrizioni, Object categoriaStatus) {
+        if (!this.isValidDate(dataInizio)) {
+            view.messagePage("Errore nel formato della data di inizio gara");
+        } else if (!this.isValidDate(dataChiusuraIscrizioni)) {
+            view.messagePage("Errore nel formato della data di chiusura iscrizioni");
+        } else if (!model.findTournament(nomeGara).isEmpty()) {
             view.messagePage("Trovata una gara registrata allo stesso nome");
+        } else if (!this.isValidInteger(maxIscritti)) {
+            view.messagePage("Inserire un numero intero come massimo di iscritti");
+        } else if (durata.toString().equals("4") && categoriaStatus.equals("dilettantistica")) {
+            view.messagePage("Una gara dilettantistica deve avere durata minore o uguale a 3 giorni");
+        } else {
+            model.addNewTournament(
+                circolo.getNomeCircolo(),
+                nomePercorso.toString(),
+                nomeGara,
+                dataInizio,
+                durata,
+                maxIscritti,
+                dataChiusuraIscrizioni,
+                categoriaStatus.equals("professionistica") ? new String("p") : new String("d"),
+                this.getCategory(durata.toString(), categoriaStatus)
+                );
+                view.messagePage("Gara registrata con successo");
         }
+    }
+
+    private boolean isValidInteger(String maxIscritti) {
+        try {
+            Integer.parseInt(maxIscritti);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     private String getCategory(String durata, Object categoriaStatus) {

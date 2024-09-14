@@ -652,7 +652,7 @@ public class View {
         final var dataInizio = new JTextField("Inserire la data di inizio del torneo (formato YYYY-MM-DD)");
         final var durata = new JPanel(new FlowLayout(FlowLayout.LEFT));
         durata.add(new JLabel("Seleziona la durata della gara"));
-        final String[] durations = { "1", "2", "3", "4(solo per gare professionistiche)" };
+        final String[] durations = { "1", "2", "3", "4" };
         final var chooseDuration = new JComboBox<String>(durations);
         durata.add(chooseDuration);
         final var dataChiusuraIscrizioni = new JTextField(
@@ -677,7 +677,7 @@ public class View {
                     courseChoiceMenu.getSelectedItem(),
                     name.getText(),
                     dataInizio.getText(),
-                    chooseDuration.getSelectedItem(),
+                    (String)chooseDuration.getSelectedItem(),
                     maxIscritti.getText(),
                     dataChiusuraIscrizioni.getText(),
                     statusChoice.getSelectedItem());
