@@ -36,7 +36,13 @@ public class Attribuzioni {
 
         public static int count(Connection connection, String nomeCircolo, String nomeCarica) {
             try (
-                var statement = DAOUtils.prepare(connection, Queries.COUNT_ASSIGNED_TITLES, nomeCarica, nomeCircolo);
+                var statement = DAOUtils.prepare(
+                    connection,
+                    Queries.COUNT_ASSIGNED_TITLES,
+                    nomeCarica,
+                    nomeCircolo,
+                    Year.now().toString()
+                );
                 var resSet = statement.executeQuery();
             ) {
                 resSet.next();

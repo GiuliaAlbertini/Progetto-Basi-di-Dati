@@ -104,12 +104,6 @@ public class Queries {
                 WHERE numtessera = ?
                 """
         ;
-        public static final String REMOVE_CLUB = 
-        """
-                DELETE FROM circoli
-                WHERE nomecircolo = ?
-                """
-        ;
         public static final String MEMBERS_OF =
         """
                 SELECT t.*
@@ -179,6 +173,7 @@ public class Queries {
                 FROM attribuzioni
                 WHERE nomecarica = ?
                 AND nomecircolo = ?
+                AND anno = ?
                 """
         ;
         public static final String GET_MAX_TITLES = 
