@@ -285,6 +285,8 @@ public class Controller {
             (num4 != null && model.findPlayer(num4).isEmpty())
         ) {
             view.messagePage("Numeri di tessera non validi");
+        } else if (this.arePlayersRepeated(player1, num2, num3, num4)) {
+            view.messagePage("Errore: ripetizione di numeri di tessera uguali");
         } else if (!this.bookingAvailable(circolo, nomePercorso, data, ora)) {
             view.messagePage("Prenotazione non disponibile");
         } else {
@@ -300,6 +302,12 @@ public class Controller {
             );
             view.messagePage("Prenotazione registrata con successo");
         }
+    }
+
+    private boolean arePlayersRepeated(String player1, String num2, String num3, String num4) {
+        return (num2 != null && num2.equals(player1))
+            || (num3 != null && (num3.equals(num2) || num3.equals(player1)))
+            || (num4 != null && (num4.equals(num3) || num4.equals(num2) || num4.equals(player1)));
     }
 
     private boolean isvalidTime(String ora) {
