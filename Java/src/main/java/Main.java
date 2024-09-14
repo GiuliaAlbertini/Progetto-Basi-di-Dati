@@ -11,7 +11,7 @@ public class Main {
     public static void handleLoginData(String username, String password) {
         Connection connection = null;
         try {
-            connection = DAOUtils.localMySQLConnection("federgolf", "root", "869375Fs.");
+            connection = DAOUtils.localMySQLConnection("federgolf", username, password);
         } catch (Exception e) {
             View.loginDataError();
         }
