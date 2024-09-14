@@ -220,13 +220,13 @@ public class Tesserati {
 
         public static void remove(Connection connection, Tesserati player) {
             try (
-                var statement = DAOUtils.prepare(
+                var playerRemovalStatement = DAOUtils.prepare(
                     connection,
                     Queries.REMOVE_PLAYER,
                     player.getNumTessera()
-                )
+                );
             ) {
-                statement.execute();
+                playerRemovalStatement.execute();
             } catch (Exception e) {
                 throw new DAOException(e);
             }
