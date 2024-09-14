@@ -93,16 +93,6 @@ public class Circoli {
                 throw new DAOException(e);
             }
         }
-
-        public static void remove(Connection connection, String clubName) {
-            try (
-                var statement = DAOUtils.prepare(connection, Queries.REMOVE_CLUB, clubName)
-            ) {
-                statement.execute();
-            } catch (Exception e) {
-                throw new DAOException(e);
-            }
-        }
     }
 
 }

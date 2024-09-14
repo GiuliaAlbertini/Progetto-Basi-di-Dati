@@ -78,7 +78,7 @@ public class View {
         mainErrorPanel.setLayout(new BoxLayout(mainErrorPanel, BoxLayout.Y_AXIS));
 
         final var messagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        messagePanel.add(new JLabel("Username o password errati"));
+        messagePanel.add(new JLabel("Errore nei dati di login"));
         mainErrorPanel.add(messagePanel);
 
         final var goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -224,14 +224,12 @@ public class View {
         var newPlayer = new JButton("Registra un nuovo tesserato");
         var newClub = new JButton("Registra un nuovo circolo");
         var updatePlayer = new JButton("Modifica il profilo di un tesserato");
-        var removeClub = new JButton("Rimuovi il profilo di un circolo");
         var homeButton = new JButton("Torna alla Home");
 
         odmUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
         newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         newClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         updatePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        removeClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     
         
@@ -258,10 +256,6 @@ public class View {
             controller.playerUpdateRequested();
             frame.validate();
         });
-        removeClub.addActionListener(e -> {
-            controller.clubRemoveRequested();
-            frame.validate();
-        });
        
          // Usa GridBagConstraints per centrare i pulsanti
          GridBagConstraints gbc = new GridBagConstraints();
@@ -284,9 +278,6 @@ public class View {
         adminHomePanel.add(updatePlayer,gbc);
         
         gbc.gridy = 4;
-        adminHomePanel.add(removeClub,gbc);
-        
-        gbc.gridy = 5;
         adminHomePanel.add(homeButton,gbc);
         
         JPanel outerPanel = new JPanel(new BorderLayout());
@@ -661,7 +652,7 @@ public class View {
         final var dataInizio = new JTextField("Inserire la data di inizio del torneo (formato YYYY-MM-DD)");
         final var durata = new JPanel(new FlowLayout(FlowLayout.LEFT));
         durata.add(new JLabel("Seleziona la durata della gara"));
-        final String[] durations = { "1", "2", "3", "4(solo per gare professionistiche)" };
+        final String[] durations = { "1", "2", "3", "4" };
         final var chooseDuration = new JComboBox<String>(durations);
         durata.add(chooseDuration);
         final var dataChiusuraIscrizioni = new JTextField(
@@ -686,7 +677,7 @@ public class View {
                     courseChoiceMenu.getSelectedItem(),
                     name.getText(),
                     dataInizio.getText(),
-                    chooseDuration.getSelectedItem(),
+                    (String)chooseDuration.getSelectedItem(),
                     maxIscritti.getText(),
                     dataChiusuraIscrizioni.getText(),
                     statusChoice.getSelectedItem());
@@ -980,23 +971,6 @@ public class View {
 
         playerSelectionFrame.add(this.adminHome());
         frame.setContentPane(playerSelectionFrame);
-    }
-
-    public void clubRemoveSelection() {
-        final var clubSelectionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        final var clubName = new JTextField("Inserire il nome del circolo");
-        clubSelectionPanel.add(clubName);
-
-        final var remove = new JButton("Rimuovi circolo");
-        remove.addActionListener(e -> {
-            controller.removeClub(clubName.getText());
-            frame.validate();
-        });
-
-        clubSelectionPanel.add(remove);
-        clubSelectionPanel.add(this.adminHome());
-        frame.setContentPane(clubSelectionPanel);
     }
 
     public void playerUpdateFound(Tesserati player) {

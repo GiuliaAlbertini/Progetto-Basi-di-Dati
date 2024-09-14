@@ -91,11 +91,6 @@ public class DBModel implements Model{
     }
 
     @Override
-    public void removeClub(String clubName) {
-        Circoli.DAO.remove(connection, clubName);
-    }
-
-    @Override
     public List<Tesserati> getMembers(Circoli circolo) {
         return Tesserati.DAO.membersOf(connection, circolo);
     }

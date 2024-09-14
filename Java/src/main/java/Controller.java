@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Year;
 import java.util.List;
 import java.util.Vector;
@@ -86,13 +87,13 @@ public class Controller {
         view.playerUpdateSelection();
     }
 
-    public void clubRemoveRequested() {
-        view.clubRemoveSelection();
-    }
-
     public void registerPlayer(String name, String surname, String dateOfBirth) {
-        model.registerPlayer(name, surname, dateOfBirth);
-        view.messagePage("Giocatore registrato correttamente");
+        if (this.isValidDate(dateOfBirth)) {
+            model.registerPlayer(name, surname, dateOfBirth);
+            view.messagePage("Giocatore registrato correttamente");
+        } else {
+            view.messagePage("Errore nel formato della data");
+        }
     }
 
     public void registerClub(String clubName, String address) {
@@ -132,15 +133,6 @@ public class Controller {
     public void removePlayer(Tesserati player) {
         model.remove(player);
         view.messagePage("Giocatore rimosso");
-    }
-
-    public void removeClub(String clubName) {
-        if (model.findClub(clubName).isEmpty()) {
-            view.messagePage("Circolo non trovato");
-        } else {
-            model.removeClub(clubName);
-            view.messagePage("Circolo rimosso");
-        }
     }
 
     public void getMemberList(Circoli circolo) {
@@ -191,30 +183,48 @@ public class Controller {
     public void seeBookings(Circoli circolo) {
         List<Prenotazioni> bookings = model.getBookings(circolo);
         if (bookings.isEmpty()) {
-            view.messagePage("Il circolo non ha registrato prenotazioni");
+            view.messagePage("Il circolo non ha ancora registrato prenotazioni");
         } else {
             view.showBookings(circolo, bookings);
         }
     }
 
     public void addNewTournament(Circoli circolo, Object nomePercorso, String nomeGara, String dataInizio, 
-        Object durata, String maxIscritti, String dataChiusuraIscrizioni, Object categoriaStatus) {
-        if (model.findTournament(nomeGara).isEmpty()) {
-            model.addNewTournament(
-            circolo.getNomeCircolo(),
-            nomePercorso.toString(),
-            nomeGara,
-            dataInizio,
-            durata.toString(),
-            maxIscritti,
-            dataChiusuraIscrizioni,
-            categoriaStatus.equals("professionistica") ? new String("p") : new String("d"),
-            this.getCategory(durata.toString(), categoriaStatus)
-            );
-            view.messagePage("Gara registrata con successo");
-        } else {
+        String durata, String maxIscritti, String dataChiusuraIscrizioni, Object categoriaStatus) {
+        if (!this.isValidDate(dataInizio)) {
+            view.messagePage("Errore nel formato della data di inizio gara");
+        } else if (!this.isValidDate(dataChiusuraIscrizioni)) {
+            view.messagePage("Errore nel formato della data di chiusura iscrizioni");
+        } else if (!model.findTournament(nomeGara).isEmpty()) {
             view.messagePage("Trovata una gara registrata allo stesso nome");
+        } else if (!this.isValidInteger(maxIscritti)) {
+            view.messagePage("Inserire un numero intero come massimo di iscritti");
+        } else if (durata.toString().equals("4") && categoriaStatus.equals("dilettantistica")) {
+            view.messagePage("Una gara dilettantistica deve avere durata minore o uguale a 3 giorni");
+        } else {
+            model.addNewTournament(
+                circolo.getNomeCircolo(),
+                nomePercorso.toString(),
+                nomeGara,
+                dataInizio,
+                durata,
+                maxIscritti,
+                dataChiusuraIscrizioni,
+                categoriaStatus.equals("professionistica") ? new String("p") : new String("d"),
+                this.getCategory(durata.toString(), categoriaStatus)
+                );
+                view.messagePage("Gara registrata con successo");
         }
+    }
+
+    private boolean isValidInteger(String maxIscritti) {
+        try {
+            Integer.parseInt(maxIscritti);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     private String getCategory(String durata, Object categoriaStatus) {
@@ -230,7 +240,7 @@ public class Controller {
             model.addCourse(circolo.getNomeCircolo(), nomePercorso, par, courseRating);
             view.messagePage("Percorso inserito correttamente");
         } else {
-            view.messagePage("Impossibile registrare il circolo");
+            view.messagePage("Impossibile registrare il percorso");
         }
     }
 
@@ -258,29 +268,48 @@ public class Controller {
 
     public void addBooking(Circoli circolo, String nomePercorso, String data, String ora, String player1, String player2,
             String player3, String player4) {
-        if (this.bookingAvailable(
-            circolo,
-            nomePercorso,
-            data,
-            ora
-        )) {
-            String num2 = this.getValue(player2);
-            String num3= this.getValue(player3);
-            String num4 = this.getValue(player4);
+
+        String num2 = this.getValue(player2);
+        String num3= this.getValue(player3);
+        String num4 = this.getValue(player4);
+        if (!this.isValidDate(data)) {
+            view.messagePage("Errore nel formato della data");
+        } else if (!this.isvalidTime(ora)) {
+            view.messagePage("Errore nel formato dell'orario");
+        } else if (!this.isValidInteger(player1)) {
+            view.messagePage("Inserire un numero intero come numero di tessera");
+        } else if (
+            model.findPlayer(player1).isEmpty() ||
+            (num2 != null && model.findPlayer(num2).isEmpty()) ||
+            (num3 != null && model.findPlayer(num3).isEmpty()) ||
+            (num4 != null && model.findPlayer(num4).isEmpty())
+        ) {
+            view.messagePage("Numeri di tessera non validi");
+        } else if (!this.bookingAvailable(circolo, nomePercorso, data, ora)) {
+            view.messagePage("Prenotazione non disponibile");
+        } else {
             model.addBooking(
                 circolo.getNomeCircolo(),
                 nomePercorso,
                 data,
                 ora,
-                Integer.toString(Integer.parseInt(player1)),
+                player1,
                 num2,
                 num3,
                 num4
             );
             view.messagePage("Prenotazione registrata con successo");
-        } else {
-            view.messagePage("Prenotazione non disponibile");
         }
+    }
+
+    private boolean isvalidTime(String ora) {
+        try {
+            LocalTime.parse(ora);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     private String getValue(String player) {
@@ -337,9 +366,9 @@ public class Controller {
         }
     }
 
-    private boolean isValidDate(String emissionDate) {
+    private boolean isValidDate(String date) {
         try {
-            LocalDate.parse(emissionDate);
+            LocalDate.parse(date);
         } catch (Exception e) {
             return false;
         }
