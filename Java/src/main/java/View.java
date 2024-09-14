@@ -11,17 +11,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+<<<<<<< HEAD
 import javax.swing.border.Border;
+=======
+>>>>>>> 97475b9751c93871be1633f1a0b61a1554107cb5
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JComboBox;
 import javax.swing.JLayeredPane;
 import java.awt.Component;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.GridBagConstraints;
@@ -34,9 +36,74 @@ import data.Cariche;
 import data.Circoli;
 import data.Gare;
 import data.Prenotazioni;
+import data.Stats;
 import data.Tesserati;
 
 public class View {
+
+    public static void databaseLoginPage() {
+        final var loginFrame = new JFrame();
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame.setSize(400, 300);
+        
+        final var mainLoginPanel = new JPanel();
+        mainLoginPanel.setLayout(new BoxLayout(mainLoginPanel, BoxLayout.Y_AXIS));
+
+        final var usernameLabelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        usernameLabelPanel.add(new JLabel("Username:"));
+        mainLoginPanel.add(usernameLabelPanel);
+
+        final var usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var username = new JTextField(30);
+        usernamePanel.add(username);
+        mainLoginPanel.add(usernamePanel);
+
+        final var passwordLabelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        passwordLabelPanel.add(new JLabel("Password:"));
+        mainLoginPanel.add(passwordLabelPanel);
+
+        final var passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var password = new JPasswordField(30);
+        passwordPanel.add(password);
+        mainLoginPanel.add(passwordPanel);
+
+        final var goPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var go = new JButton("login");
+        go.addActionListener(e -> {
+            loginFrame.setVisible(false);
+            Main.handleLoginData(username.getText(), String.valueOf(password.getPassword()));
+        });
+        goPanel.add(go);
+        mainLoginPanel.add(goPanel);
+
+        loginFrame.setContentPane(mainLoginPanel);
+        loginFrame.setVisible(true);
+    }
+
+    public static void loginDataError() {
+        final var errorFrame = new JFrame();
+        errorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        errorFrame.setSize(400, 300);
+
+        final var mainErrorPanel = new JPanel();
+        mainErrorPanel.setLayout(new BoxLayout(mainErrorPanel, BoxLayout.Y_AXIS));
+
+        final var messagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        messagePanel.add(new JLabel("Username o password errati"));
+        mainErrorPanel.add(messagePanel);
+
+        final var goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final var goBack = new JButton("Riprova");
+        goBack.addActionListener(e -> {
+            errorFrame.setVisible(false);
+            View.databaseLoginPage();
+        });
+        goBackPanel.add(goBack);
+        mainErrorPanel.add(goBackPanel);
+
+        errorFrame.setContentPane(mainErrorPanel);
+        errorFrame.setVisible(true);
+    }
 
     private Controller controller;
     private final JFrame frame;
@@ -44,6 +111,51 @@ public class View {
     View(Runnable onClose) {
         this.frame = this.createFrame("Federazione Italiana Golf");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private JButton playerHome(Tesserati tesserato) {
+        final var button = new JButton("Torna alla zona tesserati");
+        button.addActionListener(e -> {
+            this.playerPage(tesserato);
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton adminHome() {
+        final var button = new JButton("Torna alla zona amministratore");
+        button.addActionListener(e -> {
+            this.adminPage();
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton clubHome(Circoli circolo) {
+        final var button = new JButton("Torna alla zona circoli");
+        button.addActionListener(e -> {
+            this.clubPage(circolo);
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton guestHome() {
+        final var button = new JButton("Torna alla zona ospiti");
+        button.addActionListener(e -> {
+            this.guestPage();
+            frame.validate();
+        });
+        return button;
+    }
+
+    private JButton home() {
+        final var button = new JButton("Torna alla Home");
+        button.addActionListener(e -> {
+            controller.homePage();
+            frame.validate();
+        });
+        return button;
     }
 
     public void setController(Controller controller) {
@@ -413,6 +525,7 @@ public class View {
         clubPanel.add(newCourse);
         clubPanel.add(bookings);
         clubPanel.add(newBooking);
+        clubPanel.add(this.home());
         frame.setContentPane(clubPanel);
     }
 
@@ -426,6 +539,12 @@ public class View {
         final var tournamentSubscription = new JButton("Visualizza le gare e le iscrizioni");
         final var statsViewer = new JButton("Visualizza le statistiche personali");
         final var addData = new JButton("Registra nuovi dati");
+        final var homeButton = new JButton("Torna alla Home");
+
+        homeButton.addActionListener(e -> {
+            controller.homePage();
+            frame.validate();
+        });
         tournamentSubscription.addActionListener(e -> {
             controller.getAvailableTournaments(tesserato);
             frame.validate();
@@ -442,6 +561,7 @@ public class View {
         playerPanel.add(tournamentSubscription);
         playerPanel.add(statsViewer);
         playerPanel.add(addData);
+        playerPanel.add(this.home());
         frame.setContentPane(playerPanel);
     }
 
@@ -485,6 +605,7 @@ public class View {
         dataAdditionPanel.add(medicalRegistrationPanel);
         dataAdditionPanel.add(mailRegistrationPanel);
         dataAdditionPanel.add(phoneRegistrationPanel);
+        dataAdditionPanel.add(this.playerHome(tesserato));
         frame.setContentPane(dataAdditionPanel);
     }
 
@@ -502,6 +623,7 @@ public class View {
             orderOfMeritPanel.add(playerPanel);
         }
 
+        orderOfMeritPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(orderOfMeritPanel));
     }
 
@@ -543,6 +665,7 @@ public class View {
             tournamentListPanel.add(tournamentPanel);
         }
 
+        tournamentListPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(tournamentListPanel));
     }
 
@@ -571,6 +694,7 @@ public class View {
             clubInfoPanel.add(singleClubPanel);
         }
 
+        clubInfoPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(clubInfoPanel));
     }
 
@@ -707,6 +831,7 @@ public class View {
         newTournamentPanel.add(courseChoicePanel);
         newTournamentPanel.add(tournamentInfoPanel);
         newTournamentPanel.add(go);
+        newTournamentPanel.add(this.clubHome(circolo));
         frame.setContentPane(newTournamentPanel);
     }
 
@@ -747,6 +872,7 @@ public class View {
         newCoursePanel.add(par);
         newCoursePanel.add(courseRating);
         newCoursePanel.add(go);
+        newCoursePanel.add(this.clubHome(circolo));
         frame.setContentPane(newCoursePanel);
     }
 
@@ -774,6 +900,7 @@ public class View {
         });
 
         titleAssignmentPanel.add(go);
+        titleAssignmentPanel.add(this.clubHome(circolo));
         frame.setContentPane(titleAssignmentPanel);
     }
 
@@ -825,6 +952,7 @@ public class View {
         });
 
         addBookingPanel.add(go);
+        addBookingPanel.add(this.clubHome(circolo));
         frame.setContentPane(addBookingPanel);
     }
 
@@ -880,6 +1008,7 @@ public class View {
 
         }
 
+        showTournamentsPanel.add(this.playerHome(tesserato));
         frame.setContentPane(new JScrollPane(showTournamentsPanel));
     }
 
@@ -898,6 +1027,7 @@ public class View {
             leaderboardPanel.add(playerPanel);
         }
 
+        leaderboardPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(leaderboardPanel));
     }
 
@@ -916,10 +1046,11 @@ public class View {
             leaderboardPanel.add(playerPanel);
         }
 
+        leaderboardPanel.add(this.guestHome());
         frame.setContentPane(new JScrollPane(leaderboardPanel));
     }
 
-    public void showTournamentsToHandle(List<Gare> tournaments) {
+    public void showTournamentsToHandle(Circoli circolo, List<Gare> tournaments) {
         final var tournamentListPanel = new JPanel();
         tournamentListPanel.setLayout(new BoxLayout(tournamentListPanel, BoxLayout.Y_AXIS));
 
@@ -946,6 +1077,7 @@ public class View {
             tournamentListPanel.add(tournamentPanel);
         }
 
+        tournamentListPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(tournamentListPanel));
     }
 
@@ -984,6 +1116,7 @@ public class View {
         
         ButtonPanel.add(register);
 
+<<<<<<< HEAD
         //bottone goback
         var goback = new JButton("Torna indietro");
         goback.addActionListener(e -> {
@@ -1016,6 +1149,9 @@ public class View {
         //sfondo
         String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\3.png";
         setBackGroundImage(clubRegistrationPanel, imagepath);
+=======
+        clubRegistrationPanel.add(this.adminHome());
+>>>>>>> 97475b9751c93871be1633f1a0b61a1554107cb5
         frame.setContentPane(clubRegistrationPanel);
     }
 
@@ -1041,6 +1177,7 @@ public class View {
         });
         ButtonPanel.add(go);
 
+<<<<<<< HEAD
 
         var goback = new JButton("Torna indietro");
         goback.addActionListener(e -> {
@@ -1078,6 +1215,10 @@ public class View {
         String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\8636.jpg";
         setBackGroundImage(playerSelectionFramePanel, imagepath);
         frame.setContentPane(playerSelectionFramePanel);
+=======
+        playerSelectionFrame.add(this.adminHome());
+        frame.setContentPane(playerSelectionFrame);
+>>>>>>> 97475b9751c93871be1633f1a0b61a1554107cb5
     }
 
     public void clubRemoveSelection() {
@@ -1134,53 +1275,41 @@ public class View {
         setBackGroundImage(ClubRpanel, imagepath);
         frame.setContentPane(ClubRpanel);
 
+<<<<<<< HEAD
+=======
+        clubSelectionPanel.add(remove);
+        clubSelectionPanel.add(this.adminHome());
+        frame.setContentPane(clubSelectionPanel);
+>>>>>>> 97475b9751c93871be1633f1a0b61a1554107cb5
     }
 
     public void playerUpdateFound(Tesserati player) {
         final var playerUpdatePanel = new JPanel();
         playerUpdatePanel.setLayout(new BoxLayout(playerUpdatePanel, BoxLayout.Y_AXIS));
 
-        final var disqualify = new JButton();
-        final var turnProfessional = new JButton();
+        final var disqualify = new JButton("Assegna/revoca squalifica");
+        final var turnProfessional = new JButton("Modifica lo status di professionista");
         final var eliminate = new JButton("Rimuovi tesserato");
 
-        if (player.getStatusProfessionista().equals("t")) {
-            turnProfessional.setText("Rinuncia allo status di professionista");
-            turnProfessional.addActionListener(e -> {
-                controller.resignProStatus(player);
-                frame.validate();
-            });
-            playerUpdatePanel.add(turnProfessional);
-        } else if (player.getEraProfessionista().equals("f")) {
-            turnProfessional.setText("Assegna status professionista");
-            turnProfessional.addActionListener(e -> {
-                controller.turnPro(player);
-                frame.validate();
-            });
-            playerUpdatePanel.add(turnProfessional);
-        }
+        turnProfessional.addActionListener(e -> {
+            controller.changeStatus(player);
+            frame.validate();
+        });
 
-        if (player.getSqualifica().equals("f")) {
-            disqualify.setText("Squalifica giocatore");
-            disqualify.addActionListener(e -> {
-                controller.disqualify(player);
-                frame.validate();
-            });
-        } else {
-            disqualify.setText("Revoca squalifica");
-            disqualify.addActionListener(e -> {
-                controller.requalify(player);
-                frame.validate();
-            });
-        }
+        disqualify.addActionListener(e -> {
+            controller.toggleDisqualification(player);
+            frame.validate();
+        });
 
         eliminate.addActionListener(e -> {
             controller.removePlayer(player);
             frame.validate();
         });
 
+        playerUpdatePanel.add(turnProfessional);
         playerUpdatePanel.add(disqualify);
         playerUpdatePanel.add(eliminate);
+        playerUpdatePanel.add(this.adminHome());
         frame.setContentPane(playerUpdatePanel);
     }
 
@@ -1208,6 +1337,7 @@ public class View {
             showMembersPanel.add(memberPanel);
         }
 
+        showMembersPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(showMembersPanel));
     }
 
@@ -1224,6 +1354,7 @@ public class View {
         });
 
         memberAdditionPanel.add(go);
+        memberAdditionPanel.add(this.clubHome(circolo));
         frame.setContentPane(memberAdditionPanel);
     }
 
@@ -1252,9 +1383,11 @@ public class View {
         });
 
         showBookingsPanel.add(goback);
+        showBookingsPanel.add(this.clubHome(circolo));
         frame.setContentPane(new JScrollPane(showBookingsPanel));
     }
 
+<<<<<<< HEAD
     public void setBackGroundImage(JPanel panel, String imagePath) {
         ImageIcon image;
         image = loadImage(imagePath);
@@ -1270,5 +1403,88 @@ public class View {
     }
 
     
+=======
+    public void showStats(Stats stats) {
+        final var statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+
+        final var playerInfoPanel = new JPanel();
+        playerInfoPanel.setLayout(new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS));
+        playerInfoPanel.add(new JLabel(
+            stats.getTesserato().getName() + " " +
+            stats.getTesserato().getSurname() + " " + 
+            "tesserato numero " +
+            Integer.toString(stats.getTesserato().getNumTessera())
+        ));
+        playerInfoPanel.add(new JLabel(
+            controller.hasValidCertificate(stats.getTesserato()) ? 
+            "Il tesserato ha un certificato medico valido" :
+            "Il tesserato non ha un certificato medico valido"
+        ));
+        playerInfoPanel.add(new JLabel(
+            stats.getTesserato().getStatusProfessionista().equals("t") ? "Professionista" : "Dilettante"
+        ));
+        playerInfoPanel.add(new JLabel(
+            "Data di nascita: " +
+            stats.getTesserato().getDataDiNascita().toString()
+        ));
+        playerInfoPanel.add(this.showContacts(stats.getTesserato()));
+        statsPanel.add(playerInfoPanel);
+
+        final var lastTournamentsPanel = new JPanel();
+        lastTournamentsPanel.setLayout(new BoxLayout(lastTournamentsPanel, BoxLayout.Y_AXIS));
+        for (var result : stats.getUltimeGare()) {
+            final var resultPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            resultPanel.add(new JLabel(result.getNomeGara()));
+            resultPanel.add(new JLabel("Posizione finale: " + Integer.toString(result.getPosizioneFinale())));
+            resultPanel.add(new JLabel("Punti ottenuti: " + Integer.toString(result.getPuntiOttenuti())));
+            lastTournamentsPanel.add(resultPanel);
+        }
+        lastTournamentsPanel.add(new JLabel("Media punti nelle ultime 10 gare: " +Float.toString(stats.getMediaPunti())));
+        statsPanel.add(lastTournamentsPanel);
+
+        statsPanel.add(this.playerHome(stats.getTesserato()));
+
+        frame.setContentPane(new JScrollPane(statsPanel));
+    }
+
+    private JLabel showContacts(Tesserati tesserato) {
+        String email = "non registrato";
+        if (tesserato.getEmail() != null) {
+            email = tesserato.getEmail();
+        }
+
+        String phone = "non registrato";
+        if (tesserato.getTelefono() != null) {
+            phone = tesserato.getTelefono();
+        }
+        return new JLabel(
+            "Indirizzo mail: " + email + " Numero di telefono: " + phone
+        );
+    }
+
+    public void insertPosition(Gare gara, int posizione, List<Tesserati> nonPositionedPlayers) {
+        final var positionPanel = new JPanel();
+        positionPanel.setLayout(new BoxLayout(positionPanel, BoxLayout.Y_AXIS));
+
+        positionPanel.add(new JLabel(
+            "Inserire il giocatore in" +
+            Integer.toString(posizione) +
+            " posizione"
+        ));
+
+        final var selectPlayer = new JComboBox<Tesserati>(new Vector<Tesserati>(nonPositionedPlayers));
+        final var recordResult = new JButton("Registra la posizione");
+
+        recordResult.addActionListener(e -> {
+            controller.recordResult((Tesserati)selectPlayer.getSelectedItem(), gara, posizione, nonPositionedPlayers);
+            frame.validate();
+        });
+
+        positionPanel.add(selectPlayer);
+        positionPanel.add(recordResult);
+        frame.setContentPane(positionPanel);
+    }
+>>>>>>> 97475b9751c93871be1633f1a0b61a1554107cb5
 
 }

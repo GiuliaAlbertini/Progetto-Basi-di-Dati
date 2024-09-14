@@ -99,4 +99,12 @@ public interface Model {
 
     public List<Gare> getClubTournaments(String nomeCircolo);
 
+    public Stats getStats(int numTessera);
+
+    public int getFinalPoints(int posizione, String nomeGara);
+
+    public void recordPosition(int numTessera, String nomeGara, int posizione, int odMPoints);
+
+    public List<Tesserati> getLimitedEntryList(String nomeGara, int maxIscritti);
+
 }

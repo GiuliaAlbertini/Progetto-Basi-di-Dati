@@ -316,9 +316,10 @@ public class Queries {
         ;
         public static final String GET_CERTIFICATE_EXPIRATION =
         """
-                SELECT scadenza
-                FROM certificati_medici
+                SELECT c.scadenza
+                FROM certificati_medici c, tesserati t
                 WHERE numtessera = ?
+                AND c.numcertificato = t.numcertificato
                 """
         ;
         public static final String FIND_TOURNAMENTS_IN_CLUB =
@@ -327,6 +328,53 @@ public class Queries {
                 FROM gare
                 WHERE nomecircolo = ?
                 ORDER BY datainizio
+                """
+        ;
+        public static final String FIND_RESULTS = 
+        """
+                SELECT i.*
+                FROM iscrizioni i, gare g
+                WHERE i.nomegara = g.nomegara
+                AND i.numtessera = ?
+                ORDER BY g.datainizio DESC
+                LIMIT 10
+                """
+        ;
+        public static final String GET_POINTS_FROM_POSITION = 
+        """
+                SELECT *
+                FROM posizionamenti p, gare g
+                WHERE p.posizione = ?
+                AND g.nomegara = ?
+                AND g.nomecategoria = p.nomecategoria
+                """
+        ;
+        public static final String UPDATE_RESULT = 
+        """
+                UPDATE iscrizioni
+                SET posizionefinale = ?, puntiottenuti = ?
+                WHERE numtessera = ?
+                AND nomegara = ?
+                """
+        ;
+        public static final String GET_PRO_ENTRIES = 
+        """
+                SELECT t.*
+                FROM iscrizioni i, tesserati t
+                WHERE t.statusprofessionista = 't'
+                AND i.nomegara = ?
+                AND t.numtessera = i.numtessera
+                LIMIT ?
+                """
+        ;
+        public static final String GET_AM_ENTRIES =
+        """
+                SELECT t.*
+                FROM iscrizioni i, tesserati t
+                WHERE t.statusprofessionista = 'f'
+                AND i.nomegara = ?
+                AND t.numtessera = i.numtessera
+                LIMIT ?
                 """
         ;
 

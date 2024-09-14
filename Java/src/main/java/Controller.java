@@ -109,22 +109,22 @@ public class Controller {
         }
     }
 
-    public void resignProStatus(Tesserati player) {
+    private void resignProStatus(Tesserati player) {
         model.resignProStatus(player);
         view.messagePage("Status di professionista revocato");
     }
 
-    public void turnPro(Tesserati player) {
+    private void turnPro(Tesserati player) {
         model.turnPro(player);
         view.messagePage("Status di professionista associato");
     }
 
-    public void disqualify(Tesserati player) {
+    private void disqualify(Tesserati player) {
         model.disqualify(player);
         view.messagePage("Squalifica registrata correttamente");
     }
 
-    public void requalify(Tesserati player) {
+    private void requalify(Tesserati player) {
         model.requalify(player);
         view.messagePage("Squalifica revocata con successo");
     }
@@ -162,7 +162,7 @@ public class Controller {
 
     public void manageTournaments(Circoli circolo) {
         List<Gare> tournaments = model.getClubTournaments(circolo.getNomeCircolo());
-        view.showTournamentsToHandle(tournaments);
+        view.showTournamentsToHandle(circolo, tournaments);
     }
 
     public void courseAddition(Circoli circolo) {
@@ -308,7 +308,7 @@ public class Controller {
         }
     }
 
-    private boolean hasValidCertificate(Tesserati tesserato) {
+    public boolean hasValidCertificate(Tesserati tesserato) {
         return model.hasCertificate(tesserato) && model.isCertificateValid(tesserato.getNumCertificato());
     }
 
@@ -321,8 +321,7 @@ public class Controller {
     }
 
     public void getPersonalStats(Tesserati tesserato) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPersonalStats'");
+        view.showStats(model.getStats(tesserato.getNumTessera()));
     }
 
     public void recordMedical(String emissionDate, Tesserati tesserato) {
@@ -399,12 +398,51 @@ public class Controller {
         view.showEntryList(entryList);
     }
 
-    public void handleResult(Gare elem) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleResult'");
+    public void handleResult(Gare gara) {
+        List<Tesserati> availablePlayers = model.getLimitedEntryList(gara.getNomeGara(), gara.getMaxIscritti());
+        view.insertPosition(gara, 1, availablePlayers);
     }
 
     public View getView() {
         return view;
-    }   
+    }
+
+    public void changeStatus(Tesserati player) {
+        if (player.getStatusProfessionista().equals("t")) {
+            this.resignProStatus(player);
+        } else if (player.getEraProfessionista().equals("f")) {
+            this.turnPro(player);
+        } else {
+            view.messagePage("Impossibile assegnare lo status di professionista: il giocatore vi ha precedentemente rinunciato");
+        }
+    }
+
+    public void toggleDisqualification(Tesserati player) {
+        if (player.getSqualifica().equals("t")) {
+            this.requalify(player);
+        } else {
+            this.disqualify(player);
+        }
+    }
+
+    public void recordResult(Tesserati tesserato, Gare gara, int posizione, List<Tesserati> availablePlayers) {
+        model.recordPosition(
+            tesserato.getNumTessera(),
+            gara.getNomeGara(),
+            posizione,
+            this.getOdMPoints(posizione, gara.getNomeGara())
+        );
+
+        availablePlayers.remove(tesserato);
+        if (!availablePlayers.isEmpty()) {
+            view.insertPosition(gara, posizione + 1, availablePlayers);
+        } else {
+            view.clubPage(model.findClub(gara.getNomeCircolo()).get());
+            view.messagePage("Classifica registrata correttamente");
+        }
+    }
+
+    private int getOdMPoints(int posizione, String nomeGara) {
+        return model.getFinalPoints(posizione, nomeGara);
+    }
 }

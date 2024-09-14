@@ -1,9 +1,25 @@
+import java.sql.Connection;
+
 import data.DAOUtils;
 import model.Model;
 
 public class Main {
     public static void main(String[] args) {
-        var connection = DAOUtils.localMySQLConnection("federgolf", "root", "869375Fs.");
+        View.databaseLoginPage();
+    }
+
+    public static void handleLoginData(String username, String password) {
+        Connection connection = null;
+        try {
+            connection = DAOUtils.localMySQLConnection("federgolf", username, password);
+        } catch (Exception e) {
+            View.loginDataError();
+        }
+
+        runApp(connection);
+    }
+
+    public static void runApp(Connection connection) {
         var model = Model.fromConnection(connection);
         var view = new View(() -> {
             try {

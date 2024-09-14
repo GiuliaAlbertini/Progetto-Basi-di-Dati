@@ -278,6 +278,38 @@ public class Tesserati {
                 throw new DAOException(e);
             }
         }
+
+        public static List<Tesserati> getLimitedEntry(Connection connection, String nomeGara, int maxIscritti) {
+            List<Tesserati> res = new LinkedList<>();
+
+            try (
+                final var getProStatement = DAOUtils.prepare(
+                    connection,
+                    Queries.GET_PRO_ENTRIES,
+                    nomeGara,
+                    maxIscritti  
+                );
+                var proResSet = getProStatement.executeQuery();
+                final var getAmStatement = DAOUtils.prepare(
+                    connection, 
+                    Queries.GET_AM_ENTRIES,
+                    nomeGara,
+                    maxIscritti
+                );
+                var amResSet = getAmStatement.executeQuery();
+            ) {
+                while (proResSet.next()) {
+                    res.add(Tesserati.DAO.create(proResSet));
+                }
+                while (amResSet.next() && res.size() < maxIscritti) {
+                    res.add(Tesserati.DAO.create(amResSet));
+                }
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+            return res;
+        }
     }
 
 }

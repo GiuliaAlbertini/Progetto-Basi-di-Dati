@@ -265,11 +265,32 @@ public class DBModel implements Model{
 
     @Override
     public boolean isCertificateValid(int numCertificato) {
-        return LocalDate.now().isAfter(CertificatiMedici.DAO.getExpirydate(connection, numCertificato));
+        return CertificatiMedici.DAO.getExpirydate(connection, numCertificato).isAfter(LocalDate.now());
     }
 
     @Override
     public List<Gare> getClubTournaments(String nomeCircolo) {
         return Gare.DAO.getTournamentsInClub(connection, nomeCircolo);
     }
+
+    @Override
+    public Stats getStats(int numTessera) {
+        return Stats.DAO.get(connection, numTessera);
+    }
+
+    @Override
+    public int getFinalPoints(int posizione, String nomeGara) {
+        return Posizionamenti.DAO.getOdMPoints(connection, posizione, nomeGara);
+    }
+
+    @Override
+    public void recordPosition(int numTessera, String nomeGara, int posizione, int odMPoints) {
+        Iscrizioni.DAO.setResult(connection, numTessera, nomeGara, posizione, odMPoints);
+    }
+
+    @Override
+    public List<Tesserati> getLimitedEntryList(String nomeGara, int maxIscritti) {
+        return Tesserati.DAO.getLimitedEntry(connection, nomeGara, maxIscritti);
+    }
+    
 }
