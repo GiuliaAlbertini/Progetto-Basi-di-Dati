@@ -23,7 +23,6 @@ import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
 
