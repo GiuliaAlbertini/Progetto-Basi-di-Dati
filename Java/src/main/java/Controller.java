@@ -86,10 +86,6 @@ public class Controller {
         view.playerUpdateSelection();
     }
 
-    public void clubRemoveRequested() {
-        view.clubRemoveSelection();
-    }
-
     public void registerPlayer(String name, String surname, String dateOfBirth) {
         if (this.isValidDate(dateOfBirth)) {
             model.registerPlayer(name, surname, dateOfBirth);
@@ -136,15 +132,6 @@ public class Controller {
     public void removePlayer(Tesserati player) {
         model.remove(player);
         view.messagePage("Giocatore rimosso");
-    }
-
-    public void removeClub(String clubName) {
-        if (model.findClub(clubName).isEmpty()) {
-            view.messagePage("Circolo non trovato");
-        } else {
-            model.removeClub(clubName);
-            view.messagePage("Circolo rimosso");
-        }
     }
 
     public void getMemberList(Circoli circolo) {

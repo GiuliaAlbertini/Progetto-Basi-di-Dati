@@ -224,14 +224,12 @@ public class View {
         var newPlayer = new JButton("Registra un nuovo tesserato");
         var newClub = new JButton("Registra un nuovo circolo");
         var updatePlayer = new JButton("Modifica il profilo di un tesserato");
-        var removeClub = new JButton("Rimuovi il profilo di un circolo");
         var homeButton = new JButton("Torna alla Home");
 
         odmUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
         newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         newClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         updatePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        removeClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     
         
@@ -258,10 +256,6 @@ public class View {
             controller.playerUpdateRequested();
             frame.validate();
         });
-        removeClub.addActionListener(e -> {
-            controller.clubRemoveRequested();
-            frame.validate();
-        });
        
          // Usa GridBagConstraints per centrare i pulsanti
          GridBagConstraints gbc = new GridBagConstraints();
@@ -284,9 +278,6 @@ public class View {
         adminHomePanel.add(updatePlayer,gbc);
         
         gbc.gridy = 4;
-        adminHomePanel.add(removeClub,gbc);
-        
-        gbc.gridy = 5;
         adminHomePanel.add(homeButton,gbc);
         
         JPanel outerPanel = new JPanel(new BorderLayout());
@@ -980,23 +971,6 @@ public class View {
 
         playerSelectionFrame.add(this.adminHome());
         frame.setContentPane(playerSelectionFrame);
-    }
-
-    public void clubRemoveSelection() {
-        final var clubSelectionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        final var clubName = new JTextField("Inserire il nome del circolo");
-        clubSelectionPanel.add(clubName);
-
-        final var remove = new JButton("Rimuovi circolo");
-        remove.addActionListener(e -> {
-            controller.removeClub(clubName.getText());
-            frame.validate();
-        });
-
-        clubSelectionPanel.add(remove);
-        clubSelectionPanel.add(this.adminHome());
-        frame.setContentPane(clubSelectionPanel);
     }
 
     public void playerUpdateFound(Tesserati player) {

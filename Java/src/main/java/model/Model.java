@@ -39,8 +39,6 @@ public interface Model {
 
     public void remove(Tesserati player);
 
-    public void removeClub(String clubName);
-
     public List<Tesserati> getMembers(Circoli circolo);
 
     public Optional<Associazioni> findAssociation(Circoli circolo, String number, int value);
