@@ -278,8 +278,13 @@ public class Controller {
             view.messagePage("Errore nel formato dell'orario");
         } else if (!this.isValidInteger(player1)) {
             view.messagePage("Inserire un numero intero come numero di tessera");
-        } else if (model.findPlayer(player1).isEmpty()) {
-            view.messagePage("Inserire un numero di tessera valido per il giocatore 1");
+        } else if (
+            model.findPlayer(player1).isEmpty() ||
+            (num2 != null && model.findPlayer(num2).isEmpty()) ||
+            (num3 != null && model.findPlayer(num3).isEmpty()) ||
+            (num4 != null && model.findPlayer(num4).isEmpty())
+        ) {
+            view.messagePage("Numeri di tessera non validi");
         } else if (!this.bookingAvailable(circolo, nomePercorso, data, ora)) {
             view.messagePage("Prenotazione non disponibile");
         } else {
