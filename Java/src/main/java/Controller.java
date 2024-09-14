@@ -267,28 +267,28 @@ public class Controller {
 
     public void addBooking(Circoli circolo, String nomePercorso, String data, String ora, String player1, String player2,
             String player3, String player4) {
-        if (this.bookingAvailable(
-            circolo,
-            nomePercorso,
-            data,
-            ora
-        )) {
-            String num2 = this.getValue(player2);
-            String num3= this.getValue(player3);
-            String num4 = this.getValue(player4);
+
+        String num2 = this.getValue(player2);
+        String num3= this.getValue(player3);
+        String num4 = this.getValue(player4);
+        if (!this.isValidInteger(player1)) {
+            view.messagePage("Inserire un numero intero come numero di tessera");
+        } else if (model.findPlayer(player1).isEmpty()) {
+            view.messagePage("Inserire un numero di tessera valido per il giocatore 1");
+        } else if (!this.bookingAvailable(circolo, nomePercorso, data, ora)) {
+            view.messagePage("Prenotazione non disponibile");
+        } else {
             model.addBooking(
                 circolo.getNomeCircolo(),
                 nomePercorso,
                 data,
                 ora,
-                Integer.toString(Integer.parseInt(player1)),
+                player1,
                 num2,
                 num3,
                 num4
             );
             view.messagePage("Prenotazione registrata con successo");
-        } else {
-            view.messagePage("Prenotazione non disponibile");
         }
     }
 
