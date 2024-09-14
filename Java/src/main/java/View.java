@@ -1001,7 +1001,6 @@ public class View {
 
         final var disqualify = new JButton("Assegna/revoca squalifica");
         final var turnProfessional = new JButton("Modifica lo status di professionista");
-        final var eliminate = new JButton("Rimuovi tesserato");
 
         turnProfessional.addActionListener(e -> {
             controller.changeStatus(player);
@@ -1013,14 +1012,8 @@ public class View {
             frame.validate();
         });
 
-        eliminate.addActionListener(e -> {
-            controller.removePlayer(player);
-            frame.validate();
-        });
-
         playerUpdatePanel.add(turnProfessional);
         playerUpdatePanel.add(disqualify);
-        playerUpdatePanel.add(eliminate);
         playerUpdatePanel.add(this.adminHome());
         frame.setContentPane(playerUpdatePanel);
     }

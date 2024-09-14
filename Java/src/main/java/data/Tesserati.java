@@ -218,20 +218,6 @@ public class Tesserati {
             }
         }
 
-        public static void remove(Connection connection, Tesserati player) {
-            try (
-                var playerRemovalStatement = DAOUtils.prepare(
-                    connection,
-                    Queries.REMOVE_PLAYER,
-                    player.getNumTessera()
-                );
-            ) {
-                playerRemovalStatement.execute();
-            } catch (Exception e) {
-                throw new DAOException(e);
-            }
-        }
-
         public static List<Tesserati> membersOf(Connection connection, Circoli circolo) {
             List<Tesserati> res = new LinkedList<>();
 

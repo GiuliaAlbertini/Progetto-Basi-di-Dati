@@ -149,11 +149,6 @@ public class Controller {
         view.messagePage("Squalifica revocata con successo");
     }
 
-    public void removePlayer(Tesserati player) {
-        model.remove(player);
-        view.messagePage("Giocatore rimosso");
-    }
-
     public void getMemberList(Circoli circolo) {
         List<Tesserati> members = model.getMembers(circolo);
         if (members.isEmpty()) {
