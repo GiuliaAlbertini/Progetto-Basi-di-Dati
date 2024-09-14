@@ -22,6 +22,22 @@ public class Riserve {
             }
         }
 
+        public static void registerLimit(Connection connection, String clubName, String titleName, String maxNomine) {
+            try (
+                final var statement = DAOUtils.prepare(
+                    connection,
+                    Queries.NEW_TITLE_LIMIT,
+                    clubName,
+                    titleName,
+                    maxNomine
+                );
+            ) {
+                statement.execute();
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
     }
     
 }

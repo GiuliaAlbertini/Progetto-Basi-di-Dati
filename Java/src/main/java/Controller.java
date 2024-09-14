@@ -98,9 +98,26 @@ public class Controller {
 
     public void registerClub(String clubName, String address, String caddieMaster, String greenKeeper,
         String referenteAtleti, String maestro, String segretario) {
-            if (/* inserire controlli sulla validità dei dati */ true) {}
-            model.registerClub(clubName, address);
-            view.messagePage("Circolo inserito con successo");
+            if (!this.isValidInteger(caddieMaster)) {
+                view.messagePage("Inserire un numero intero per la riserva del Caddie Master");
+            } else if (!this.isValidInteger(greenKeeper)) {
+                view.messagePage("Inserire un numero intero per la riserva del Greenkeeper");
+            } else if (!this.isValidInteger(referenteAtleti)) {
+                view.messagePage("Inserire un numero intero per la riserva del Referente Atleti");
+            } else if (!this.isValidInteger(maestro)) {
+                view.messagePage("Inserire un numero intero per la riserva del maestro");
+            } else if (!this.isValidInteger(segretario)) {
+                view.messagePage("Inserire un numero intero per la riserva del Segretario");
+            } else {
+                model.registerClub(clubName, address);
+                model.registerLimit(clubName, "Caddie Master", caddieMaster);
+                model.registerLimit(clubName, "Greenkeeper", greenKeeper);
+                model.registerLimit(clubName, "Referente Atleti", referenteAtleti);
+                model.registerLimit(clubName, "Maestro", maestro);
+                model.registerLimit(clubName, "Segretario", segretario);
+                view.messagePage("Circolo inserito con successo");
+            }
+
     }
 
     public void updatePlayer(String number) {

@@ -287,5 +287,10 @@ public class DBModel implements Model{
     public List<Tesserati> getLimitedEntryList(String nomeGara, int maxIscritti) {
         return Tesserati.DAO.getLimitedEntry(connection, nomeGara, maxIscritti);
     }
+
+    @Override
+    public void registerLimit(String clubName, String titleName, String maxNomine) {
+        Riserve.DAO.registerLimit(connection, clubName, titleName, maxNomine);
+    }
     
 }

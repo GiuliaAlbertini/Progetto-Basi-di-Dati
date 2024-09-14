@@ -105,4 +105,6 @@ public interface Model {
 
     public List<Tesserati> getLimitedEntryList(String nomeGara, int maxIscritti);
 
+    public void registerLimit(String clubName, String titleName, String maxNomine);
+
 }

@@ -372,6 +372,12 @@ public class Queries {
                 LIMIT ?
                 """
         ;
+        public static final String NEW_TITLE_LIMIT = 
+        """
+                INSERT INTO riserve(nomecircolo, nomecarica, maxnomine)
+                VALUES (?,?,?)
+                """
+        ;
 
     
 }
