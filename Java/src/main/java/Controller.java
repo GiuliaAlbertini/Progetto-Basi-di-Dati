@@ -362,15 +362,17 @@ public class Controller {
     }
 
     public void recordMedical(String emissionDate, Tesserati tesserato) {
-        if(this.isValidDate(emissionDate)) {
+        if(!this.isValidDate(emissionDate)) {
+            view.messagePage("Errore nel formato della data");
+        } else if (LocalDate.parse(emissionDate).isAfter(LocalDate.now())) {
+            view.messagePage("Impossibile inserire un certificato medico postdatato");
+        } else {
             model.recordMedical(
                 emissionDate,
                 (LocalDate.parse(emissionDate)).plusYears(2).toString(),
                 Integer.toString(tesserato.getNumTessera())
             );
             view.messagePage("Certificato registrato correttamente");
-        } else {
-            view.messagePage("Errore nel formato della data");
         }
     }
 
