@@ -182,7 +182,7 @@ public class Controller {
     public void seeBookings(Circoli circolo) {
         List<Prenotazioni> bookings = model.getBookings(circolo);
         if (bookings.isEmpty()) {
-            view.messagePage("Il circolo non ha registrato prenotazioni");
+            view.messagePage("Il circolo non ha ancoora registrato prenotazioni");
         } else {
             view.showBookings(circolo, bookings);
         }
