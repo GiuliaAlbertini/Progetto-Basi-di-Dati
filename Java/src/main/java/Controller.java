@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Year;
 import java.util.List;
 import java.util.Vector;
@@ -271,7 +272,11 @@ public class Controller {
         String num2 = this.getValue(player2);
         String num3= this.getValue(player3);
         String num4 = this.getValue(player4);
-        if (!this.isValidInteger(player1)) {
+        if (!this.isValidDate(data)) {
+            view.messagePage("Errore nel formato della data");
+        } else if (!this.isvalidTime(ora)) {
+            view.messagePage("Errore nel formato dell'orario");
+        } else if (!this.isValidInteger(player1)) {
             view.messagePage("Inserire un numero intero come numero di tessera");
         } else if (model.findPlayer(player1).isEmpty()) {
             view.messagePage("Inserire un numero di tessera valido per il giocatore 1");
@@ -290,6 +295,16 @@ public class Controller {
             );
             view.messagePage("Prenotazione registrata con successo");
         }
+    }
+
+    private boolean isvalidTime(String ora) {
+        try {
+            LocalTime.parse(ora);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     private String getValue(String player) {
