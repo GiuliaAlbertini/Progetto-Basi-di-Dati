@@ -943,18 +943,40 @@ public class View {
 
         final var name = new JTextField("Nome del Circolo");
         final var address = new JTextField("Indirizzo del Circolo");
+        final var caddieMaster = this.maxOf("Caddie Master");
+        final var greenkeeper = this.maxOf("Greenkeeper");
+        final var maestro = this.maxOf("Maestri");
+        final var referenteAtleti = this.maxOf("Referenti Atleti");
+        final var segretario = this.maxOf("Segretari");
         final var go = new JButton("Registra i dati inseriti");
 
         clubRegistrationPanel.add(name);
         clubRegistrationPanel.add(address);
+        clubRegistrationPanel.add(caddieMaster);
+        clubRegistrationPanel.add(greenkeeper);
+        clubRegistrationPanel.add(referenteAtleti);
+        clubRegistrationPanel.add(maestro);
+        clubRegistrationPanel.add(segretario);
         go.addActionListener(e -> {
-            controller.registerClub(name.getText(), address.getText());
+            controller.registerClub(
+            name.getText(),
+            address.getText(),
+            caddieMaster.getText(),
+            greenkeeper.getText(),
+            referenteAtleti.getText(),
+            maestro.getText(),
+            segretario.getText()
+            );
             frame.validate();
         });
         clubRegistrationPanel.add(go);
 
         clubRegistrationPanel.add(this.adminHome());
         frame.setContentPane(clubRegistrationPanel);
+    }
+
+    private JTextField maxOf(String nomeCarica) {
+        return new JTextField("Massimo numero di " + nomeCarica);
     }
 
     public void playerUpdateSelection() {

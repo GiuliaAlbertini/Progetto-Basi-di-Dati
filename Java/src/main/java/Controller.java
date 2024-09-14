@@ -96,9 +96,11 @@ public class Controller {
         }
     }
 
-    public void registerClub(String clubName, String address) {
-        model.registerClub(clubName, address);
-        view.messagePage("Circolo inserito con successo");
+    public void registerClub(String clubName, String address, String caddieMaster, String greenKeeper,
+        String referenteAtleti, String maestro, String segretario) {
+            if (/* inserire controlli sulla validità dei dati */ true) {}
+            model.registerClub(clubName, address);
+            view.messagePage("Circolo inserito con successo");
     }
 
     public void updatePlayer(String number) {
