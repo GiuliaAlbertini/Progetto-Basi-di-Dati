@@ -410,8 +410,12 @@ public class Controller {
     }
 
     public void recordSubscription(Tesserati tesserato, Gare gara) {
-        model.recordSubscription(Integer.toString(tesserato.getNumTessera()), gara.getNomeGara(), LocalDate.now().toString());
-        view.messagePage("Iscritto con successo");
+        if (this.isSubscribed(tesserato, gara)) {
+            view.messagePage("Il giocatore risulta iscritto");
+        } else {
+            model.recordSubscription(Integer.toString(tesserato.getNumTessera()), gara.getNomeGara(), LocalDate.now().toString());
+            view.messagePage("Iscritto con successo");
+        }
     }
 
     public boolean isSubscribed(Tesserati tesserato, Gare gara) {
@@ -419,8 +423,12 @@ public class Controller {
     }
 
     public void retireSubscription(Tesserati tesserato, Gare gara) {
-        model.retireSubscription(Integer.toString(tesserato.getNumTessera()), gara.getNomeGara());
-        view.messagePage("Iscrizione revocata correttamente");
+        if (!this.isSubscribed(tesserato, gara)) {
+            view.messagePage("Il giocatore non risulta iscritto");
+        } else {
+            model.retireSubscription(Integer.toString(tesserato.getNumTessera()), gara.getNomeGara());
+            view.messagePage("Iscrizione revocata correttamente");
+        }
     }
 
     public boolean isOver(Gare elem) {
