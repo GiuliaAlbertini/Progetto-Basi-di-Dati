@@ -239,7 +239,7 @@ public class Controller {
             model.addCourse(circolo.getNomeCircolo(), nomePercorso, par, courseRating);
             view.messagePage("Percorso inserito correttamente");
         } else {
-            view.messagePage("Impossibile registrare il circolo");
+            view.messagePage("Impossibile registrare il percorso");
         }
     }
 
