@@ -432,19 +432,48 @@ public class View {
     }
 
     public void guestPage() {
-        final var guestHomePanel = new JPanel();
+        //visualizza odm
+        //visualizza gare
+        //visualizza info sui circoli
+        final JPanel guestHomePanel = new JPanel();
         guestHomePanel.setLayout(new GridBagLayout());
+        
 
         var odm = new JButton("Visualizza Ordine di Merito");
         var tourneys = new JButton("Visualizza le gare");
-        var clubs = new JButton("Visualizza le informazioni relative ai circoli");
-        // modifiche giuli
+        var clubs = new JButton("Visualizza informazioni sui circoli");
         var homeButton = new JButton("Torna alla Home");
+
+        
+        odm.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tourneys.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clubs.setAlignmentX(Component.CENTER_ALIGNMENT);
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        guestHomePanel.add(odm);
+        guestHomePanel.add(tourneys);
+        guestHomePanel.add(clubs);
+        guestHomePanel.add(homeButton);
+    
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+        odm.setBackground(buttonBackgroundColor);
+        odm.setForeground(buttonTextColor);
+        tourneys.setBackground(buttonBackgroundColor);
+        tourneys.setForeground(buttonTextColor);
+        clubs.setBackground(buttonBackgroundColor);
+        clubs.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        
+        // modifiche giuli
 
         homeButton.addActionListener(e -> {
             controller.homePage();
             frame.validate();
         });
+
         odm.addActionListener(e -> {
             controller.odmRequested();
             frame.validate();
@@ -457,46 +486,32 @@ public class View {
             controller.clubInfoRequested();
             frame.validate();
         });
-
-        guestHomePanel.add(odm);
-        guestHomePanel.add(tourneys);
-        guestHomePanel.add(clubs);
-        guestHomePanel.add(homeButton);
-
-        odm.setAlignmentX(Component.CENTER_ALIGNMENT);
-        tourneys.setAlignmentX(Component.CENTER_ALIGNMENT);
-        clubs.setAlignmentX(Component.CENTER_ALIGNMENT);
-        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        var buttonBackgroundColor = new Color(70, 130, 210);
-        var buttonTextColor = Color.WHITE;
-
-        odm.setBackground(buttonBackgroundColor);
-        odm.setForeground(buttonTextColor);
-        tourneys.setBackground(buttonBackgroundColor);
-        tourneys.setForeground(buttonTextColor);
-        clubs.setBackground(buttonBackgroundColor);
-        clubs.setForeground(buttonTextColor);
-        homeButton.setBackground(buttonBackgroundColor);
-        homeButton.setForeground(buttonTextColor);
-
+         
+        // Usa GridBagConstraints per centrare i pulsanti
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
-        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
 
         gbc.gridy = 0;
         guestHomePanel.add(odm, gbc);
+        
         gbc.gridy = 1;
         guestHomePanel.add(tourneys, gbc);
+        
         gbc.gridy = 2;
         guestHomePanel.add(clubs, gbc);
+        
         gbc.gridy = 3;
-        guestHomePanel.add(homeButton, gbc);
+        guestHomePanel.add(homeButton,gbc);
 
         frame.setContentPane(guestHomePanel);
+        frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(adminHomePanel, imagepath);
     }
 
     public void clubPage(Circoli circolo) {
