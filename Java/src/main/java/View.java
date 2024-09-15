@@ -1251,7 +1251,8 @@ public class View {
         clubRegistrationPanel.add(referenteAtletiPanel);
         clubRegistrationPanel.add(segretarioPanel);
         clubRegistrationPanel.add(buttonPanel);
-    
+        
+
         // Style the panels
         nameCircPanel.setOpaque(false);
         addressCircPanel.setOpaque(false);
