@@ -1106,19 +1106,42 @@ public class View {
     }
 
     public void playerUpdateSelection() {
-        final var playerSelectionFrame = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        final var number = new JTextField("Inserire il numero di tessera");
-        playerSelectionFrame.add(number);
+        final JPanel playerLoginPanel = new JPanel();
+        playerLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        final var go = new JButton("Procedi");
-        go.addActionListener(e -> {
-            controller.updatePlayer(number.getText());
+        JTextField playerNumber = new JTextField("Inserire il numero di tessera", 20);
+        JButton go = new JButton("Procedi");
+        // modifiche giuli
+        var homeButton = this.adminHome();
+
+        homeButton.addActionListener(e -> {
+            controller.homePage();
             frame.validate();
         });
-        playerSelectionFrame.add(go);
 
-        playerSelectionFrame.add(this.adminHome());
-        frame.setContentPane(playerSelectionFrame);
+        go.addActionListener(e -> {
+            controller.playerLoginSubmitted(playerNumber.getText());
+            frame.validate();
+        });
+
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
+        playerLoginPanel.add(playerNumber);
+        playerLoginPanel.add(go);
+        playerLoginPanel.add(homeButton);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(playerLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void playerUpdateFound(Tesserati player) {
