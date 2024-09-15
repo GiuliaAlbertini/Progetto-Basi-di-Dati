@@ -411,12 +411,12 @@ public class View {
     }
 
     public void guestPage() {
-        final JPanel guestPagePanel = new JPanel();
-        guestPagePanel.setLayout(new FlowLayout());
+        final var guestHomePanel = new JPanel();
+        guestHomePanel.setLayout(new GridBagLayout());
 
-        JButton odm = new JButton("Visualizza Ordine di Merito");
-        JButton tourneys = new JButton("Visualizza le gare");
-        JButton clubs = new JButton("Visualizza le informazioni relative ai circoli");
+        var odm = new JButton("Visualizza Ordine di Merito");
+        var tourneys = new JButton("Visualizza le gare");
+        var clubs = new JButton("Visualizza le informazioni relative ai circoli");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
 
@@ -438,11 +438,48 @@ public class View {
             frame.validate();
         });
 
-        guestPagePanel.add(odm);
-        guestPagePanel.add(tourneys);
-        guestPagePanel.add(clubs);
-        guestPagePanel.add(homeButton);
-        frame.setContentPane(guestPagePanel);
+        guestHomePanel.add(odm);
+        guestHomePanel.add(tourneys);
+        guestHomePanel.add(clubs);
+        guestHomePanel.add(homeButton);
+
+        odm.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tourneys.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clubs.setAlignmentX(Component.CENTER_ALIGNMENT);
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        var buttonBackgroundColor = new Color(70, 130, 210);
+        var buttonTextColor = Color.WHITE;
+
+        odm.setBackground(buttonBackgroundColor);
+        odm.setForeground(buttonTextColor);
+        tourneys.setBackground(buttonBackgroundColor);
+        tourneys.setForeground(buttonTextColor);
+        clubs.setBackground(buttonBackgroundColor);
+        clubs.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        gbc.gridy = 0;
+        guestHomePanel.add(odm, gbc);
+        gbc.gridy = 1;
+        guestHomePanel.add(tourneys, gbc);
+        gbc.gridy = 2;
+        guestHomePanel.add(clubs, gbc);
+        gbc.gridy = 3;
+        guestHomePanel.add(homeButton, gbc);
+
+        frame.setContentPane(guestHomePanel);
+
+        String imagepath = ".\\immagini\\2150978119.jpg";
+        this.setBackGroundImage(guestHomePanel, imagepath);
     }
 
     public void clubPage(Circoli circolo) {
@@ -1244,6 +1281,20 @@ public class View {
         positionPanel.add(selectPlayer);
         positionPanel.add(recordResult);
         frame.setContentPane(positionPanel);
+    }
+
+    public void setBackGroundImage(JPanel panel, String imagePath) {
+        ImageIcon image;
+        image = loadImage(imagePath);
+        JLabel background = new JLabel(image);
+        background.setBounds(0,0, panel.getWidth(), panel.getHeight()); //setta l'immagine della grandezza giusta
+        panel.setLayout(null); //se metto un layout me lo toglie e mi mette quello che voglio 
+        panel.add(background);
+        panel.repaint();
+    }
+
+    public ImageIcon loadImage (String pathImage){
+        return new ImageIcon(pathImage);
     }
 
 }
