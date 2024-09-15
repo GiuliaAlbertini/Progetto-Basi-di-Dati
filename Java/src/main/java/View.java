@@ -650,13 +650,38 @@ public class View {
         // Visualizzare e iscriversi alle gare
         // Visualizzare le proprie statistiche
         // Aggiungere email - telefono - certificato medico
-        final var playerPanel = new JPanel();
-        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-
+        final JPanel playerHomePanel = new JPanel();
+        playerHomePanel.setLayout(new GridBagLayout());
+        
         final var tournamentSubscription = new JButton("Visualizza le gare e le iscrizioni");
         final var statsViewer = new JButton("Visualizza le statistiche personali");
         final var addData = new JButton("Registra nuovi dati");
         final var homeButton = new JButton("Torna alla Home");
+
+        tournamentSubscription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        statsViewer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addData.setAlignmentX(Component.CENTER_ALIGNMENT);
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        playerHomePanel.add(tournamentSubscription);
+        playerHomePanel.add(statsViewer);
+        playerHomePanel.add(addData);
+        playerHomePanel.add(homeButton);
+
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        tournamentSubscription.setBackground(buttonBackgroundColor);
+        tournamentSubscription.setForeground(buttonTextColor);
+        statsViewer.setBackground(buttonBackgroundColor);
+        statsViewer.setForeground(buttonTextColor);
+        addData.setBackground(buttonBackgroundColor);
+        addData.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        
+        // modifiche giuli
 
         homeButton.addActionListener(e -> {
             controller.homePage();
@@ -674,12 +699,29 @@ public class View {
             this.dataAdditionPage(tesserato);
             frame.validate();
         });
+         
+        // Usa GridBagConstraints per centrare i pulsanti
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
 
-        playerPanel.add(tournamentSubscription);
-        playerPanel.add(statsViewer);
-        playerPanel.add(addData);
-        playerPanel.add(this.home());
-        frame.setContentPane(playerPanel);
+        gbc.gridy = 0;
+        playerHomePanel.add(tournamentSubscription, gbc);
+        gbc.gridy = 1;
+        playerHomePanel.add(statsViewer, gbc);
+        gbc.gridy = 2;
+        playerHomePanel.add(addData, gbc);
+        gbc.gridy = 3;
+        playerHomePanel.add(homeButton, gbc);
+
+        frame.setContentPane(playerHomePanel);
+        frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(adminHomePanel, imagepath);
     }
 
     private void dataAdditionPage(Tesserati tesserato) {
