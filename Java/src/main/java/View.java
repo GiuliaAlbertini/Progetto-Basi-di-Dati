@@ -394,9 +394,9 @@ public class View {
 
     public void playerLoginPage() {
         final JPanel playerLoginPanel = new JPanel();
-        playerLoginPanel.setLayout(new FlowLayout());
+        playerLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JTextField playerNumber = new JTextField("Inserire il numero di tessera");
+        JTextField playerNumber = new JTextField("Inserire il numero di tessera", 20);
         JButton go = new JButton("Accedi");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
@@ -411,10 +411,24 @@ public class View {
             frame.validate();
         });
 
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
         playerLoginPanel.add(playerNumber);
         playerLoginPanel.add(go);
         playerLoginPanel.add(homeButton);
-        frame.setContentPane(playerLoginPanel);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(playerLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void guestPage() {
