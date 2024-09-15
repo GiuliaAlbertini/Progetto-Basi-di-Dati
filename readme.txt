@@ -1,4 +1,6 @@
 Prima dell'esecuzione:
+- disattivare, in MySQL Workbench, la "safe mode". Questa operazione è
+necessaria per l'operazione di aggiornamento dell'ordine di merito.
 - aprire in MySQL Workbench lo script SQL "ELABORATO_BASI.sql" ed eseguirlo.
 Al suo interno contiene le istruzioni necessarie alla creazione delle tabelle
 e alla definizione dei vincoli referenziali, così come le query per popolare
