@@ -372,6 +372,13 @@ public class View {
             frame.validate();
         });
 
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
         clubLoginPanel.add(clubName);
         clubLoginPanel.add(go);
         clubLoginPanel.add(homeButton);
@@ -424,7 +431,6 @@ public class View {
             controller.homePage();
             frame.validate();
         });
-
         odm.addActionListener(e -> {
             controller.odmRequested();
             frame.validate();
@@ -477,9 +483,6 @@ public class View {
         guestHomePanel.add(homeButton, gbc);
 
         frame.setContentPane(guestHomePanel);
-
-        String imagepath = ".\\immagini\\2150978119.jpg";
-        this.setBackGroundImage(guestHomePanel, imagepath);
     }
 
     public void clubPage(Circoli circolo) {
