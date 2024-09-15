@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
@@ -523,9 +524,9 @@ public class View {
         // Registra nuove nomine
         // Registra un nuovo percorso
         // Inserimento prenotazioni
-        final var clubPanel = new JPanel();
-        clubPanel.setLayout(new BoxLayout(clubPanel, BoxLayout.Y_AXIS));
-
+        final JPanel clubHomePanel = new JPanel();
+        clubHomePanel.setLayout(new GridBagLayout());
+        
         final var members = new JButton("Visualizza i soci");
         final var newMember = new JButton("Registra un nuovo socio");
         final var newTournament = new JButton("Pubblica una nuova gara");
@@ -534,6 +535,52 @@ public class View {
         final var newTitle = new JButton("Affida una carica");
         final var bookings = new JButton("Visualizza le prenotazioni");
         final var newBooking = new JButton("Fissa una prenotazione");
+        var homeButton = this.home();
+
+        members.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newMember.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newTournament.setAlignmentX(Component.CENTER_ALIGNMENT);
+        manageTournament.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newCourse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bookings.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newBooking.setAlignmentX(Component.CENTER_ALIGNMENT);
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        clubHomePanel.add(members);
+        clubHomePanel.add(newMember);
+        clubHomePanel.add(newTournament);
+        clubHomePanel.add(manageTournament);
+        clubHomePanel.add(newCourse);
+        clubHomePanel.add(newTitle);
+        clubHomePanel.add(bookings);
+        clubHomePanel.add(newBooking);
+        clubHomePanel.add(homeButton);
+
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        members.setBackground(buttonBackgroundColor);
+        members.setForeground(buttonTextColor);
+        newMember.setBackground(buttonBackgroundColor);
+        newMember.setForeground(buttonTextColor);
+        newTournament.setBackground(buttonBackgroundColor);
+        newTournament.setForeground(buttonTextColor);
+        manageTournament.setBackground(buttonBackgroundColor);
+        manageTournament.setForeground(buttonTextColor);
+        newCourse.setBackground(buttonBackgroundColor);
+        newCourse.setForeground(buttonTextColor);
+        newTitle.setBackground(buttonBackgroundColor);
+        newTitle.setForeground(buttonTextColor);
+        bookings.setBackground(buttonBackgroundColor);
+        bookings.setForeground(buttonTextColor);
+        newBooking.setBackground(buttonBackgroundColor);
+        newBooking.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        
+        // modifiche giuli
 
         members.addActionListener(e -> {
             controller.getMemberList(circolo);
@@ -567,30 +614,77 @@ public class View {
             controller.bookingAddition(circolo);
             frame.validate();
         });
+         
+        // Usa GridBagConstraints per centrare i pulsanti
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
 
-        clubPanel.add(members);
-        clubPanel.add(newMember);
-        clubPanel.add(newTitle);
-        clubPanel.add(newTournament);
-        clubPanel.add(manageTournament);
-        clubPanel.add(newCourse);
-        clubPanel.add(bookings);
-        clubPanel.add(newBooking);
-        clubPanel.add(this.home());
-        frame.setContentPane(clubPanel);
+        gbc.gridy = 0;
+        clubHomePanel.add(members, gbc);
+        gbc.gridy = 1;
+        clubHomePanel.add(newMember, gbc);
+        gbc.gridy = 2;
+        clubHomePanel.add(newTournament, gbc);
+        gbc.gridy = 3;
+        clubHomePanel.add(manageTournament, gbc);
+        gbc.gridy = 4;
+        clubHomePanel.add(newCourse, gbc);
+        gbc.gridy = 5;
+        clubHomePanel.add(newTitle, gbc);
+        gbc.gridy = 6;
+        clubHomePanel.add(bookings, gbc);
+        gbc.gridy = 7;
+        clubHomePanel.add(newBooking, gbc);
+        gbc.gridy = 8;
+        clubHomePanel.add(homeButton, gbc);
+
+        frame.setContentPane(clubHomePanel);
+        frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(adminHomePanel, imagepath);
     }
 
     public void playerPage(Tesserati tesserato) {
         // Visualizzare e iscriversi alle gare
         // Visualizzare le proprie statistiche
         // Aggiungere email - telefono - certificato medico
-        final var playerPanel = new JPanel();
-        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-
+        final JPanel playerHomePanel = new JPanel();
+        playerHomePanel.setLayout(new GridBagLayout());
+        
         final var tournamentSubscription = new JButton("Visualizza le gare e le iscrizioni");
         final var statsViewer = new JButton("Visualizza le statistiche personali");
         final var addData = new JButton("Registra nuovi dati");
         final var homeButton = new JButton("Torna alla Home");
+
+        tournamentSubscription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        statsViewer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addData.setAlignmentX(Component.CENTER_ALIGNMENT);
+        homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        playerHomePanel.add(tournamentSubscription);
+        playerHomePanel.add(statsViewer);
+        playerHomePanel.add(addData);
+        playerHomePanel.add(homeButton);
+
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        tournamentSubscription.setBackground(buttonBackgroundColor);
+        tournamentSubscription.setForeground(buttonTextColor);
+        statsViewer.setBackground(buttonBackgroundColor);
+        statsViewer.setForeground(buttonTextColor);
+        addData.setBackground(buttonBackgroundColor);
+        addData.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        
+        // modifiche giuli
 
         homeButton.addActionListener(e -> {
             controller.homePage();
@@ -608,12 +702,29 @@ public class View {
             this.dataAdditionPage(tesserato);
             frame.validate();
         });
+         
+        // Usa GridBagConstraints per centrare i pulsanti
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
 
-        playerPanel.add(tournamentSubscription);
-        playerPanel.add(statsViewer);
-        playerPanel.add(addData);
-        playerPanel.add(this.home());
-        frame.setContentPane(playerPanel);
+        gbc.gridy = 0;
+        playerHomePanel.add(tournamentSubscription, gbc);
+        gbc.gridy = 1;
+        playerHomePanel.add(statsViewer, gbc);
+        gbc.gridy = 2;
+        playerHomePanel.add(addData, gbc);
+        gbc.gridy = 3;
+        playerHomePanel.add(homeButton, gbc);
+
+        frame.setContentPane(playerHomePanel);
+        frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(adminHomePanel, imagepath);
     }
 
     private void dataAdditionPage(Tesserati tesserato) {
@@ -662,20 +773,39 @@ public class View {
 
     public void showOrderOfMerit(List<Tesserati> odm) {
         final JPanel orderOfMeritPanel = new JPanel();
-        orderOfMeritPanel.setLayout(new BoxLayout(orderOfMeritPanel, BoxLayout.Y_AXIS));
+        orderOfMeritPanel.setLayout(new GridBagLayout());
+         
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        int i = 0;
         for (var player : odm) {
-            JPanel playerPanel = new JPanel();
-            playerPanel.setLayout(new FlowLayout());
-            playerPanel.add(new JLabel(player.getName()));
-            playerPanel.add(new JLabel(player.getSurname()));
-            playerPanel.add(new JLabel(String.valueOf(player.getOdMPoints())));
+            gbc.gridy = i;
+            orderOfMeritPanel.add(
+                new JLabel(
+                    Integer.toString(i + 1) + "- " +
+                    player.getName() + " " +
+                    player.getSurname() + " " +
+                    "punteggio: " + Integer.toString(player.getOdMPoints())
+                ),
+                gbc
+            );
 
-            orderOfMeritPanel.add(playerPanel);
+            i++;
         }
 
-        orderOfMeritPanel.add(this.guestHome());
+        gbc.gridy = i;
+        orderOfMeritPanel.add(this.guestHome(), gbc);
+
         frame.setContentPane(new JScrollPane(orderOfMeritPanel));
+        frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(adminHomePanel, imagepath);
     }
 
     public void showTournamentList(List<Gare> tourneys) {
