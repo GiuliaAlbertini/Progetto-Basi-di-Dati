@@ -1191,20 +1191,37 @@ public class View {
     }
 
     public void memberAdditionPage(Circoli circolo) {
-        final var memberAdditionPanel = new JPanel();
-        memberAdditionPanel.setLayout(new BoxLayout(memberAdditionPanel, BoxLayout.Y_AXIS));
+        final JPanel playerLoginPanel = new JPanel();
+        playerLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        final var number = new JTextField("Inserire il numero di tessera");
-        memberAdditionPanel.add(number);
-        final var go = new JButton("Registra socio");
+        JTextField playerNumber = new JTextField("Inserire il numero di tessera", 20);
+        JButton go = new JButton("Registra socio");
+        // modifiche giuli
+        var homeButton = this.clubHome(circolo);
+
         go.addActionListener(e -> {
-            controller.registerMember(circolo, number.getText());
+            controller.registerMember(circolo, playerNumber.getText());
             frame.validate();
         });
 
-        memberAdditionPanel.add(go);
-        memberAdditionPanel.add(this.clubHome(circolo));
-        frame.setContentPane(memberAdditionPanel);
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
+        playerLoginPanel.add(playerNumber);
+        playerLoginPanel.add(go);
+        playerLoginPanel.add(homeButton);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(playerLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void showBookings(Circoli circolo, List<Prenotazioni> bookings) {
