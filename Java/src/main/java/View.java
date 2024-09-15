@@ -1114,13 +1114,8 @@ public class View {
         // modifiche giuli
         var homeButton = this.adminHome();
 
-        homeButton.addActionListener(e -> {
-            controller.homePage();
-            frame.validate();
-        });
-
         go.addActionListener(e -> {
-            controller.playerLoginSubmitted(playerNumber.getText());
+            controller.updatePlayer(playerNumber.getText());
             frame.validate();
         });
 
