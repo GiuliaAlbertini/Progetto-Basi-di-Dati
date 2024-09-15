@@ -941,17 +941,32 @@ public class View {
     public void messagePage(String message) {
         final var prevPanel = frame.getContentPane();
 
-        final var errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        errorPanel.add(new JLabel(message));
+        final JPanel errorPanel = new JPanel();
+        errorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        final var goback = new JButton("Torna indietro");
-        goback.addActionListener(e -> {
+        var messageLabel = new JLabel(message);
+        JButton go = new JButton("Torna indietro");
+
+        go.addActionListener(e -> {
             frame.setContentPane(prevPanel);
             frame.validate();
         });
 
-        errorPanel.add(goback);
-        frame.setContentPane(errorPanel);
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
+        errorPanel.add(messageLabel);
+        errorPanel.add(go);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(errorPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void showTournaments(Tesserati tesserato, List<Gare> availableTournaments) {
