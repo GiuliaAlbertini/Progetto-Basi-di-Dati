@@ -394,9 +394,9 @@ public class View {
 
     public void playerLoginPage() {
         final JPanel playerLoginPanel = new JPanel();
-        playerLoginPanel.setLayout(new FlowLayout());
+        playerLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JTextField playerNumber = new JTextField("Inserire il numero di tessera");
+        JTextField playerNumber = new JTextField("Inserire il numero di tessera", 20);
         JButton go = new JButton("Accedi");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
@@ -411,10 +411,24 @@ public class View {
             frame.validate();
         });
 
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
         playerLoginPanel.add(playerNumber);
         playerLoginPanel.add(go);
         playerLoginPanel.add(homeButton);
-        frame.setContentPane(playerLoginPanel);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(playerLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void guestPage() {
@@ -982,17 +996,32 @@ public class View {
     public void messagePage(String message) {
         final var prevPanel = frame.getContentPane();
 
-        final var errorPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        errorPanel.add(new JLabel(message));
+        final JPanel errorPanel = new JPanel();
+        errorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        final var goback = new JButton("Torna indietro");
-        goback.addActionListener(e -> {
+        var messageLabel = new JLabel(message);
+        JButton go = new JButton("Torna indietro");
+
+        go.addActionListener(e -> {
             frame.setContentPane(prevPanel);
             frame.validate();
         });
 
-        errorPanel.add(goback);
-        frame.setContentPane(errorPanel);
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
+        errorPanel.add(messageLabel);
+        errorPanel.add(go);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(errorPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void showTournaments(Tesserati tesserato, List<Gare> availableTournaments) {
@@ -1147,19 +1176,37 @@ public class View {
     }
 
     public void playerUpdateSelection() {
-        final var playerSelectionFrame = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        final var number = new JTextField("Inserire il numero di tessera");
-        playerSelectionFrame.add(number);
+        final JPanel playerLoginPanel = new JPanel();
+        playerLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        final var go = new JButton("Procedi");
+        JTextField playerNumber = new JTextField("Inserire il numero di tessera", 20);
+        JButton go = new JButton("Procedi");
+        // modifiche giuli
+        var homeButton = this.adminHome();
+
         go.addActionListener(e -> {
-            controller.updatePlayer(number.getText());
+            controller.updatePlayer(playerNumber.getText());
             frame.validate();
         });
-        playerSelectionFrame.add(go);
 
-        playerSelectionFrame.add(this.adminHome());
-        frame.setContentPane(playerSelectionFrame);
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
+        playerLoginPanel.add(playerNumber);
+        playerLoginPanel.add(go);
+        playerLoginPanel.add(homeButton);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(playerLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void playerUpdateFound(Tesserati player) {
@@ -1214,20 +1261,37 @@ public class View {
     }
 
     public void memberAdditionPage(Circoli circolo) {
-        final var memberAdditionPanel = new JPanel();
-        memberAdditionPanel.setLayout(new BoxLayout(memberAdditionPanel, BoxLayout.Y_AXIS));
+        final JPanel playerLoginPanel = new JPanel();
+        playerLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        final var number = new JTextField("Inserire il numero di tessera");
-        memberAdditionPanel.add(number);
-        final var go = new JButton("Registra socio");
+        JTextField playerNumber = new JTextField("Inserire il numero di tessera", 20);
+        JButton go = new JButton("Registra socio");
+        // modifiche giuli
+        var homeButton = this.clubHome(circolo);
+
         go.addActionListener(e -> {
-            controller.registerMember(circolo, number.getText());
+            controller.registerMember(circolo, playerNumber.getText());
             frame.validate();
         });
 
-        memberAdditionPanel.add(go);
-        memberAdditionPanel.add(this.clubHome(circolo));
-        frame.setContentPane(memberAdditionPanel);
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+        go.setBackground(buttonBackgroundColor);
+        go.setForeground(buttonTextColor);
+
+        playerLoginPanel.add(playerNumber);
+        playerLoginPanel.add(go);
+        playerLoginPanel.add(homeButton);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(playerLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void showBookings(Circoli circolo, List<Prenotazioni> bookings) {
