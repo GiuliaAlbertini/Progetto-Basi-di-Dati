@@ -1,9 +1,12 @@
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,22 +14,22 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JComboBox;
+import javax.swing.JLayeredPane;
 import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
+import java.awt.Color;
 
 
 
-import data.Cariche;
-import data.Circoli;
-import data.Gare;
-import data.Prenotazioni;
-import data.Stats;
-import data.Tesserati;
+import data.*;
 
 public class View {
 
@@ -161,10 +164,12 @@ public class View {
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
+        
         final var adminPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var clubPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var playerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final var guestPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
 
         var adminLogin = new JButton("Area Riservata Amministratore");
         var clubLogin = new JButton("Area Riservata Circoli");
@@ -172,6 +177,23 @@ public class View {
         var guestLogin = new JButton("Area Ospite");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
+        
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        adminLogin.setBackground(buttonBackgroundColor);
+        adminLogin.setForeground(buttonTextColor);
+        clubLogin.setBackground(buttonBackgroundColor);
+        clubLogin.setForeground(buttonTextColor);
+        playerLogin.setBackground(buttonBackgroundColor);
+        playerLogin.setForeground(buttonTextColor);
+        guestLogin.setBackground(buttonBackgroundColor);
+        guestLogin.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+    
+
 
         adminLogin.addActionListener(e -> {
             controller.adminLoginClicked();
@@ -195,10 +217,16 @@ public class View {
             frame.validate();
         });
 
+        
         adminPanel.add(adminLogin);
         clubPanel.add(clubLogin);
         playerPanel.add(playerLogin);
         guestPanel.add(guestLogin);
+
+        adminPanel.setOpaque(false);
+        clubPanel.setOpaque(false);
+        playerPanel.setOpaque(false);
+        guestPanel.setOpaque(false);
 
         mainPanel.add(adminPanel);
         mainPanel.add(clubPanel);
@@ -209,6 +237,9 @@ public class View {
         ((JComponent) frame.getContentPane()).setBorder(padding);
         frame.setSize(1000, 600);
         frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(mainPanel, imagepath);
     }
 
     public void adminPage() {
@@ -219,6 +250,7 @@ public class View {
         // Gestione di un circolo
         final JPanel adminHomePanel = new JPanel();
         adminHomePanel.setLayout(new GridBagLayout());
+        
 
         var odmUpdate = new JButton("Aggiorna Ordine di Merito");
         var newPlayer = new JButton("Registra un nuovo tesserato");
@@ -226,12 +258,38 @@ public class View {
         var updatePlayer = new JButton("Modifica il profilo di un tesserato");
         var homeButton = new JButton("Torna alla Home");
 
+        
         odmUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
         newPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         newClub.setAlignmentX(Component.CENTER_ALIGNMENT);
         updatePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+
+        
+        adminHomePanel.add(odmUpdate);
+        adminHomePanel.add(newPlayer);
+        adminHomePanel.add(newClub);
+        adminHomePanel.add(updatePlayer);
+        adminHomePanel.add(homeButton);
+        
+
     
+        Color buttonBackgroundColor = new Color(70, 130, 210); // Colore di sfondo blu 
+        Color buttonTextColor = Color.WHITE; // Colore del testo bianco
+
+
+        odmUpdate.setBackground(buttonBackgroundColor);
+        odmUpdate.setForeground(buttonTextColor);
+        newPlayer.setBackground(buttonBackgroundColor);
+        newPlayer.setForeground(buttonTextColor);
+        newClub.setBackground(buttonBackgroundColor);
+        newClub.setForeground(buttonTextColor);
+        updatePlayer.setBackground(buttonBackgroundColor);
+        updatePlayer.setForeground(buttonTextColor);
+        homeButton.setBackground(buttonBackgroundColor);
+        homeButton.setForeground(buttonTextColor);
+
         
         // modifiche giuli
 
@@ -257,13 +315,18 @@ public class View {
             frame.validate();
         });
        
-         // Usa GridBagConstraints per centrare i pulsanti
-         GridBagConstraints gbc = new GridBagConstraints();
-         gbc.gridx = 0;
-         gbc.gridy = GridBagConstraints.RELATIVE;
-         gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
-         gbc.anchor = GridBagConstraints.CENTER;
-         gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
+         
+
+        
+
+         
+        // Usa GridBagConstraints per centrare i pulsanti
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.insets = new Insets(10, 0, 10, 0); // Spazi fissi tra i pulsanti
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Permette ai pulsanti di espandersi orizzontalmente se necessario
 
         gbc.gridy = 0;
         adminHomePanel.add(odmUpdate, gbc);
@@ -279,20 +342,22 @@ public class View {
         
         gbc.gridy = 4;
         adminHomePanel.add(homeButton,gbc);
+       
         
-        JPanel outerPanel = new JPanel(new BorderLayout());
-        outerPanel.add(adminHomePanel, BorderLayout.CENTER);
 
-        frame.setContentPane(outerPanel);
-  
-        //frame.setContentPane(adminHomePanel);
+        frame.setContentPane(adminHomePanel);
+        frame.setVisible(true);
+
+        //String imagepath = "C:\\Users\\alber\\Desktop\\Progetto-Basi-di-Dati\\immagini\\2150978119.jpg";
+        //setBackGroundImage(adminHomePanel, imagepath);
+      
     }
 
     public void clubLoginPage() {
         final JPanel clubLoginPanel = new JPanel();
-        clubLoginPanel.setLayout(new FlowLayout());
+        clubLoginPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JTextField clubName = new JTextField("Inserire il nome del circolo");
+        JTextField clubName = new JTextField("Inserire il nome del circolo", 20);
         JButton go = new JButton("Accedi");
         // modifiche giuli
         var homeButton = new JButton("Torna alla Home");
@@ -310,7 +375,14 @@ public class View {
         clubLoginPanel.add(clubName);
         clubLoginPanel.add(go);
         clubLoginPanel.add(homeButton);
-        frame.setContentPane(clubLoginPanel);
+
+        JPanel outerPanel = new JPanel();
+        outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS)); // Layout verticale
+        outerPanel.add(Box.createVerticalGlue()); // Spazio flessibile sopra
+        outerPanel.add(clubLoginPanel);
+        outerPanel.add(Box.createVerticalGlue()); 
+
+        frame.setContentPane(outerPanel);
     }
 
     public void playerLoginPage() {
